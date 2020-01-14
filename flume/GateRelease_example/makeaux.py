@@ -6,7 +6,7 @@ make auxiliary input files
 """
 
 import numpy as np
-import topotools as gt
+import dclaw.topotools as gt
 import pylab
 import os
 import pdb
@@ -73,7 +73,11 @@ def flume_theta(X,Y):
 
     return Z
 
-
+topodirname = 'aux'
+if (not os.path.isdir(topodirname)):
+    strexe = 'mkdir '+topodirname
+    os.system(strexe)
+    print('making '+topodirname+' directory')
 
 #phi file
 outfile= 'FlumePhi.tt2'
@@ -87,7 +91,7 @@ nypoints = int((yupper-ylower)/1.0) + 1
 gt.topo2writer(outfile,flume_gaterelease_phi,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
-#phi file
+#theta file
 outfile= 'FlumeTheta.tt2'
 outfile = os.path.join('aux',outfile)
 xlower = -15.0
@@ -98,5 +102,5 @@ nxpoints = int((xupper-xlower)/0.1) + 1
 nypoints = int((yupper-ylower)/0.1) + 1
 gt.topo2writer(outfile,flume_theta,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
-
+print('auxiliary files are located in: '+topodirname)
 

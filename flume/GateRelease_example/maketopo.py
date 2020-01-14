@@ -6,7 +6,7 @@ make some 'artificial' topo surrounding the flume area
 """
 
 import numpy as np
-import topotools as gt
+import dclaw.topotools as gt
 import pylab
 import os
 import pdb
@@ -222,6 +222,13 @@ def flume_hm_res(X,Y):
 
     return Z
 
+# create topo directory if it doesn't yet exist
+topodirname = 'topo'
+if (not os.path.isdir(topodirname)):
+    strexe = 'mkdir '+topodirname
+    os.system(strexe)
+    print('making '+topodirname+' directory')
+
 #flat topo
 outfile= 'ZeroTopo.tt2'
 outfile = os.path.join('topo',outfile)
@@ -311,7 +318,7 @@ nypoints = int((yupper-ylower)/0.01) + 1
 gt.topo2writer(outfile,flume_hm_res,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
-
+print('topography files are located in: '+topodirname)
 
 
 

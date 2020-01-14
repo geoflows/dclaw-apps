@@ -22,7 +22,7 @@ It's probably a good idea to make a note of the D-Claw code in the application d
 ```
 export PYTHONPATH=$CLAW/python:$PYTHONPATH
 ```
- You can then import some tools from the dclaw python folder if they are useful (it is assumed that $CLAW/python is on your python path in many application scripts.) 
+You can then import some tools from the dclaw python folder if they are useful:  
 ```
 python> import dclaw
 python> import dclaw.topotools as dt 
@@ -35,6 +35,6 @@ export MATLABPATH=$CLAW/matlabgeo:$CLAW/matlab:$MATLABPATH
 ```
 matlab> addpath ../
 ```
-to get the local .m-files in the application directory correctly on your path. (Matlab will add the absolute path for ../)
-* if you are using multiple versions of Clawpack (*eg.,* Clawpack 5.x or GeoClaw and D-Claw), you might want to look into the [environment modules]() package, which can dynamically change your environment variables (such as $PATH, $CLAW, $PYTHONPATH, $MATLABPATH) for your running shell, to make sure all paths are correct and compatible.
+to get the local .m-files in the output's parent directory correctly on your path. (Matlab will add the absolute path for ../)
+* if you are using multiple versions of Clawpack (*eg.,* Clawpack 5.x or GeoClaw and D-Claw), you might want to use, if you don't already, the [environment modules](http://modules.sourceforge.net/) package, which can dynamically change your environment variables (such as $PATH, $CLAW, $PYTHONPATH, $MATLABPATH) for your running shell, to make sure all paths are correct and compatible.
 
