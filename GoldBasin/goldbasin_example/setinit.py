@@ -1,12 +1,11 @@
 """
-maketopo:
+setinit:
+this routine creates local directories and sets softlinks for the topo and q-init DEMs
+used by setrun.py
 
-create a topo directory with links to topo files and initialization files
 this requires that you have an environment variable $TOPO set, and 
 topography files in $TOPO for the Gold Basin area. Modify this routine accordingly
-to link to topography. You can create soft links or move your topography into the local 
-directoris. Alternatively, modify setrun.py accordingly to find your input DEMs.
-
+based on your directory path/names for topography -- see targetpaths below
 
 If you have other files, modify 
 this and your setrun.py accordingly.
