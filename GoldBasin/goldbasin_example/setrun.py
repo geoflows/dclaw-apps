@@ -65,19 +65,20 @@ def setrun(claw_pkg='digclaw'):
     # use DEM limits
     import os
     import dclaw.topotools as dt
-    boundaryfile = os.path.join(init_data,'topo',topodomain.tt3)
-    a=dt.topoboundary(boundaryfile)
-    xll = a[0] 
+    boundaryfile = os.path.join('init_data','topo','topodomain.tt3')
+    a=dt.topoboundary(boundaryfile);
+    xll = a[0]
     yll = a[2] 
     xu = a[1] 
     yu = a[3] 
 
-    header = gt.topoheaderread(boundaryfile)
+    header = dt.topoheaderread(boundaryfile)
     dx = 2. #header['cellsize'] #finest grids will be 2 meters
     coarsen = 1
     dx = dx*coarsen
     
     # refinement ratios 
+    levels = 3 #the number of levels is set by mxnest, but convenient here (mxnest=levels below)
     r1 = 4 #level 2 refinement ratio from 1 => determines number of coarse cells
     r2 = 4 # level 3 refinement ratio from 2
     r3 = 1 #level 4 refinement raio from 3. level 4 resolution = dx meters
@@ -88,11 +89,11 @@ def setrun(claw_pkg='digclaw'):
     clawdata.xupper =  xu  - 1.0*dx*rtotal
 
     clawdata.ylower =  yll + 1.0*dx*rtotal
-    clawdata.yupper =  yu  - 1.0*cell*r1*r2
+    clawdata.yupper =  yu  - 1.0*dx*rtotal
 
     # Number of grid cells:
-    clawdata.mx = int((clawdata.xupper-clawdata.xlower)/(cell*r1*r2*r3*rc))
-    clawdata.my = int((clawdata.yupper-clawdata.ylower)/(cell*r1*r2*r3*rc))
+    clawdata.mx = int((clawdata.xupper-clawdata.xlower)/(dx*rtotal))
+    clawdata.my = int((clawdata.yupper-clawdata.ylower)/(dx*rtotal))
 
     # ---------------
     # Size of system:
@@ -128,10 +129,13 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        tf = 600.#4200.
+        tf = 60.#4200.
+        dt = 5. #output every 5 seconds
         clawdata.nout = int(tf/5.)
-        clawdata.tfinal = tf
-
+        #make spacing take precedent over final time:
+        clawdata.tfinal = tf - np.mod(tf,dt)
+        if clawdata.tfinal<tf:
+            clawdata.tfinal = clawdata.tfinal + dt
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
         clawdata.tout =  [0.0,10.0,70.0,600.0,1200.0]
@@ -232,10 +236,9 @@ def setrun(claw_pkg='digclaw'):
     # ---------------
 
 
-    # max number of refinement levels:
-    mxnest = 3
+    # max number of refinement levels
 
-    clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
+    clawdata.mxnest = -levels   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
     clawdata.inratx = [r1,r2,r3]
@@ -301,21 +304,17 @@ def setgeo(rundata):
     geodata.frictiondepth = 2000.0
 
     # == settopo.data values ==
-    # set a path variable for the base topo directory for portability
-    import os
-    topo=os.environ['TOPO']
-    #topo = 'topo'
+    # for topography, append lines of the form:
+    #   [topotype, minlevel,maxlevel,t0,tf,fname]
     geodata.topofiles = []
     
-    #topopath = os.path.join(topo,'sisters')
-    #globaltoponame= 'sisters-30m.tt3'
-    #globaltopo = os.path.join(topopath,globaltoponame)
-    #geodata.topofiles.append([3, 1, 2, -1.0, 1.e10, globaltopo])
-    topopath = os.path.join(topo,'gold_basin','Cannon','HeadMidLobe_n80p2_ascii')
-    infile = os.path.join(topopath,'headmidlobe_n80p2_topo_with_slip_surface.tt3')
-    geodata.topofiles.append([3, 1, 4, -1.0, 1.e10, infile])
+    topopath = os.path.join('input_data','topography')
+    fname = os.path.join(topopath,'toopdomain.tt3')
+    topotype = 3
+    minlevel =1
+    maxlevel = 4
+    geodata.topofiles.append([topotype, minlevel, maxlevel, -1.0, 1.e10, fname])
 
-    # == setdtopo.data values ==
     # == setdtopo.data values ==
     geodata.dtopofiles = []
     # for moving topography, append lines of the form:
@@ -333,17 +332,22 @@ def setgeo(rundata):
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
     #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
-    topopath = os.path.join(topo,'gold_basin','Cannon','HeadMidLobe_n80p2_ascii')
-    initfile = os.path.join(topopath,'headmidlobe_n80p2_src_topo_subset.tt3')
-    geodata.qinitfiles.append([3,8,3,3,initfile])
+    topopath = os.path.join('input_data','qinit')
+    fname = os.path.join(topopath,'eta_init.tt3')
+    topotype = 3
+    meqn = 7 # number of equaitons
+    qn = meqn + 1 # eta
+    minlevel = 3
+    maxlevel = 3
+    geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
 
-    topopath = os.path.join(topo,'gold_basin','Cannon','HeadMidLobe_n80p2_ascii')
-    initfile = os.path.join(topopath,'m0_62_gold_basin_slide_subset.tt2')
-    geodata.qinitfiles.append([2,4,3,3,initfile])
-
-    ##
-    ##
-
+    fname = os.path.join(topopath,'m0_init.tt2')
+    topotype = 2
+    qn = 4 # m (solid volume frac.)
+    minlevel = 3
+    maxlevel = 3
+    geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
+    
     geodata.auxinitfiles = []
     # for auxinit perturbations append lines of the form
     #   [auxinitftype,iauxinit, minlev, maxlev, fname]
@@ -356,18 +360,8 @@ def setgeo(rundata):
     geodata.regions = []
     # to specify regions of refinement append lines of the form
     #  [minlevel,maxlevel,t1,t2,x1,x2,y1,y2]
-    x1=5.52e5
-    x2 = 5.535e5
-    y1=5.183e6
-    y2 = 5.186e6
     #geodata.regions.append([4,4,-10.0,1.e10,x1,x2,y1,y2])
-    #geodata.regions.append([1,3,-10.0,200.0,ss[0],ss[1],ss[2],ss[3]])
-    #geodata.regions.append([1,4,2000,1e10,6.145e5,6.194e5,4.9e6-1.e3,4.907e6])
 
-    
-    
-    #geodata.regions.append([4,4,20.0,10.e3,xlow,xhi+1000.,ylow-5000.,yhi+200.])
-    #geodata.regions.append([4,4,-10.0,10.e3,0.9580e6,0.9583e6,1.8342e6,1.8352e6])
 
     # == setgauges.data values ==
     geodata.gauges = []
