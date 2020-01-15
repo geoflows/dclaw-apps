@@ -308,8 +308,8 @@ def setgeo(rundata):
     #   [topotype, minlevel,maxlevel,t0,tf,fname]
     geodata.topofiles = []
     
-    topopath = os.path.join('input_data','topography')
-    fname = os.path.join(topopath,'toopdomain.tt3')
+    topopath = os.path.join('init_data','topo')
+    fname = os.path.join(topopath,'topodomain.tt3')
     topotype = 3
     minlevel =1
     maxlevel = 4
@@ -332,7 +332,7 @@ def setgeo(rundata):
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
     #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
-    topopath = os.path.join('input_data','qinit')
+    topopath = os.path.join('init_data','qinit')
     fname = os.path.join(topopath,'eta_init.tt3')
     topotype = 3
     meqn = 7 # number of equaitons
