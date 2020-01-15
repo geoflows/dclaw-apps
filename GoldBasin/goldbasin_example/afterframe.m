@@ -15,11 +15,10 @@ set(gca,'FontSize',16);
 %axis off
 %slideview_gca;
 %camproj('perspective')
+
 mapview_label_gca;
-%mapview_label_gca;
-%damview2_gca;
-%sourceview_gca;
-%lakeview_gca;
+%obliqueview_gca;
+
 camlight left
 lighting gouraud
 material dull

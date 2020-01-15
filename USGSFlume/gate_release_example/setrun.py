@@ -284,7 +284,7 @@ def setgeo(rundata):
     geodata.topofiles = []
     import os
 
-    topopath = 'topo'
+    topopath = 'init_data/topo'
     topofile1=os.path.join(topopath,'ZeroTopo.tt2')
     topofile2=os.path.join(topopath,'Wall1Topo.tt2')
     topofile3=os.path.join(topopath,'Wall2Topo.tt2')
@@ -295,14 +295,12 @@ def setgeo(rundata):
     geodata.topofiles.append([2, 2, 3, 0.0, 1.e10, topofile3])
     geodata.topofiles.append([2, 4, 4, 0.0, 5.0, topofile4])
 
-
     # == setdtopo.data values ==
     # == setdtopo.data values ==
     geodata.dtopofiles = []
     # for moving topography, append lines of the form:
     #   [topotype, minlevel,maxlevel,fname]
-    #dtopofile = os.path.join(topopath,'flumedoorsTXYZ_quaddelay.txt')
-    #geodata.dtopofiles.append([1,4,4,dtopofile])
+
 
     # == setqinit.data values ==
     geodata.qinitfiles = []
@@ -314,8 +312,8 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,3,3,'topo/FlumeQinit.tt2'])
-    #geodata.qinitfiles.append([2,4,3,3,'topo/FlumeQinit_m.tt2'])
+    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/FlumeQinit.tt2'])
+
 
     # == setauxinit.data values ==
     geodata.auxinitfiles = []
@@ -326,8 +324,7 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #geodata.auxinitfiles.append([2,4,1,5,'aux/FlumePhi.tt2'])
-    geodata.auxinitfiles.append([2,5,1,5,'aux/FlumeTheta.tt2'])
+    geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/FlumeTheta.tt2'])
 
     # == setregions.data values ==
     geodata.regions = []
