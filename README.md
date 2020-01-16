@@ -16,11 +16,13 @@ Optionally they might have:
 * python plotting files (setplot.py)
 * python scripts to set-up, for instance, topography.
 
+**Note: some applications in this repository are used for ongoing collaborations and work in progress. Additionally, some may require proprietary data. Therefore, depending on the application, not all required data may be available. Check with dgeorge@uw.edu for info.**
+
 ## D-Claw version
 It's probably a good idea to make a note of the D-Claw code in the application directory...either the code commit that was used or (if I get more organized and have version releases of the code) a version or tag.  
 
 ## Running D-Claw apps
-see the README in [D-Claw repository](https://github.com/geoflows/D-Claw), and further documentation described therein.
+see the README in [D-Claw repository](https://github.com/geoflows/D-Claw), and links to further documentation provided therein.
 
 ## Plotting results
 #### matlab
