@@ -1,15 +1,44 @@
 """
-maketopo:
+setinit:
+this routine creates local directories and makes topo, qinit, and aux DEMs 
+to be used by setrun.py
 
-make some 'artificial' topo surrounding the flume area
+If you have other files, modify this and/or your setrun.py accordingly.
 
 """
 
 import numpy as np
 import dclaw.topotools as gt
-import pylab
 import os
-import pdb
+#import pylab
+#import pdb
+
+cdir = os.path.abspath(os.environ['PWD'])
+
+#---create local directories for data if they do not exist----------
+indatadir=os.path.join(cdir,'init_data')
+topodir = os.path.join(cdir,indatadir,'topo')
+auxdir = os.path.join(cdir,indatadir,'aux')
+qinitdir = os.path.join(cdir,indatadir,'qinit')
+
+if not os.path.isdir(indatadir):
+    execstr = 'mkdir '+indatadir
+    os.system(execstr)
+if not os.path.isdir(topodir):
+    execstr = 'mkdir '+topodir
+    os.system(execstr)
+if not os.path.isdir(auxdir):
+    execstr = 'mkdir '+auxdir
+    os.system(execstr)
+if not os.path.isdir(qinitdir):
+    execstr = 'mkdir '+qinitdir
+    os.system(execstr)
+
+
+#------------------------------------------------------------------------
+#---------------- functions for flume geometry to build DEMs ------------
+
+
 
 def zero(X,Y):
 
@@ -222,16 +251,70 @@ def flume_hm_res(X,Y):
 
     return Z
 
-# create topo directory if it doesn't yet exist
-topodirname = 'topo'
-if (not os.path.isdir(topodirname)):
-    strexe = 'mkdir '+topodirname
-    os.system(strexe)
-    print('making '+topodirname+' directory')
+def phi(X,Y):
+
+    """
+    bed friction angle
+    """
+    Z = np.ones(np.shape(X))
+    Z = 40.7*Z
+    deg2rad = np.pi/180.0
+    Z = deg2rad*Z
+
+    return Z
+
+def flume_gaterelease_phi(X,Y):
+
+    """
+    bed friction angle
+    based on bumpy and smooth
+    """
+
+    deg2rad = np.pi/180.0
+
+    yind  =  np.where((Y[:,0]<=20.0)&(Y[:,0]>=-20.0))[0]
+    #x1ind  = np.where(X[0,:]<6.0)[0] #hopper
+    x2ind =  np.where(X[0,:]>82.5)[0] #runout pad
+    x1ind  = np.where(X[0,:]<-4.65)[0]
+
+    Z = 41.7*np.ones(np.shape(X))
+    Z[np.ix_(yind,x1ind)] = 41.7
+    Z[np.ix_(yind,x2ind)] = 32.
+
+    Z = deg2rad*Z
+
+    return Z
+
+def flume_theta(X,Y):
+
+    """
+    angle theta in flume
+    """
+    deg2rad = np.pi/180.0
+    flumelen = 78.0
+    flumerad = 10.0
+    theta1 = 31.0
+    theta2 = 2.5
+
+    D2 = flumelen + flumerad*(theta1 - theta2)*deg2rad
+
+
+    yind =  np.where((Y[:,0]<=20.0)&(Y[:,0]>=-20.0))[0]
+    x1ind = np.where(X[0,:]<=flumelen)[0]
+    x2ind = np.where((X[0,:]>flumelen)&(X[0,:]<D2))[0]
+    x3ind = np.where(X[0,:]>=D2)[0]
+
+    Z=np.zeros(np.shape(X))
+    Z[np.ix_(yind,x1ind)] = theta1
+    Z[np.ix_(yind,x3ind)] = theta2
+    Z[np.ix_(yind,x2ind)] = theta1 - (X[np.ix_(yind,x2ind)]-flumelen)/(deg2rad*flumerad)
+    Z = deg2rad*Z
+
+    return Z
 
 #flat topo
 outfile= 'ZeroTopo.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(topodir,outfile)
 xlower = -10.0
 xupper = 180
 ylower = -10.0
@@ -242,7 +325,7 @@ gt.topo2writer(outfile,zero,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 #flat topo
 outfile= 'ZeroTopoGate.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(topodir,outfile)
 xlower = -8.0
 xupper =  10.0
 ylower =  0.0
@@ -253,7 +336,7 @@ gt.topo2writer(outfile,zero,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 #wall topo
 outfile= 'Wall1Topo.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(topodir,outfile)
 xlower = -15.0
 xupper =  90.0
 ylower =  -0.5
@@ -264,7 +347,7 @@ gt.topo2writer(outfile,wallzero,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 #wall topo
 outfile= 'Wall2Topo.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(topodir,outfile)
 xlower = -15.0
 xupper =  90.0
 ylower = 2.0
@@ -275,7 +358,7 @@ gt.topo2writer(outfile,wallzero,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 #test initial file
 outfile= 'FlumeQinit.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(qinitdir,outfile)
 xlower = -10.0
 xupper =  1.0
 ylower = -1.0
@@ -286,7 +369,7 @@ gt.topo2writer(outfile,flume_eta,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 #test initial file
 outfile= 'FlumeQinit_res.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(qinitdir,outfile)
 xlower = -10.0
 xupper =  1.0
 ylower = -1.0
@@ -297,7 +380,7 @@ gt.topo2writer(outfile,flume_eta_res,xlower,xupper,ylower,yupper,nxpoints,nypoin
 
 #test initial file
 outfile= 'FlumeQinit_res_half.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(qinitdir,outfile)
 xlower = -10.0
 xupper =  1.0
 ylower = -1.0
@@ -308,7 +391,7 @@ gt.topo2writer(outfile,flume_eta_res_half,xlower,xupper,ylower,yupper,nxpoints,n
 
 #test initial file
 outfile= 'FlumeQinit_m.tt2'
-outfile = os.path.join('topo',outfile)
+outfile = os.path.join(qinitdir,outfile)
 xlower = -10.0
 xupper =  1.0
 ylower = -1.0
@@ -317,8 +400,25 @@ nxpoints = int((xupper-xlower)/0.01) + 1
 nypoints = int((yupper-ylower)/0.01) + 1
 gt.topo2writer(outfile,flume_hm_res,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
+#phi file
+outfile= 'FlumePhi.tt2'
+outfile = os.path.join(auxdir,outfile)
+xlower = -15.0
+xupper = 180.0
+ylower = -15.0
+yupper =  15.0
+nxpoints = int((xupper-xlower)/1.0) + 1
+nypoints = int((yupper-ylower)/1.0) + 1
+gt.topo2writer(outfile,flume_gaterelease_phi,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
-print('topography files are located in: '+topodirname)
 
-
-
+#theta file
+outfile= 'FlumeTheta.tt2'
+outfile = os.path.join(auxdir,outfile)
+xlower = -15.0
+xupper = 180.0
+ylower = -15.0
+yupper =  15.0
+nxpoints = int((xupper-xlower)/0.1) + 1
+nypoints = int((yupper-ylower)/0.1) + 1
+gt.topo2writer(outfile,flume_theta,xlower,xupper,ylower,yupper,nxpoints,nypoints)

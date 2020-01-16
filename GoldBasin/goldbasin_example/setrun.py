@@ -62,18 +62,38 @@ def setrun(claw_pkg='digclaw'):
     clawdata.ndim = ndim
 
     # Lower and upper edge of computational domain:
+    # use DEM limits
+    import os
+    import dclaw.topotools as dt
+    boundaryfile = os.path.join('init_data','topo','topodomain.tt3')
+    a=dt.topoboundary(boundaryfile);
+    xll = a[0]
+    yll = a[2] 
+    xu = a[1] 
+    yu = a[3] 
 
-    clawdata.xlower = -10.0
-    clawdata.xupper =  140.0
+    header = dt.topoheaderread(boundaryfile)
+    dx = 2. #header['cellsize'] #finest grids will be 2 meters
+    coarsen = 1
+    dx = dx*coarsen
+    
+    # refinement ratios 
+    levels = 3 #the number of levels is set by mxnest, but convenient here (mxnest=levels below)
+    r1 = 4 #level 2 refinement ratio from 1 => determines number of coarse cells
+    r2 = 4 # level 3 refinement ratio from 2
+    r3 = 1 #level 4 refinement raio from 3. level 4 resolution = dx meters
+    rtotal = r1*r2*r3 #total refinement from coarsest level
+    
+    #set computationsl domain (shrink by a coarse cell from DEM limits)
+    clawdata.xlower =  xll + 1.0*dx*rtotal
+    clawdata.xupper =  xu  - 1.0*dx*rtotal
 
-    clawdata.ylower =  -6.0
-    clawdata.yupper =   8.0
-
+    clawdata.ylower =  yll + 1.0*dx*rtotal
+    clawdata.yupper =  yu  - 1.0*dx*rtotal
 
     # Number of grid cells:
-    clawdata.mx = 200
-    clawdata.my = 28
-
+    clawdata.mx = int((clawdata.xupper-clawdata.xlower)/(dx*rtotal))
+    clawdata.my = int((clawdata.yupper-clawdata.ylower)/(dx*rtotal))
 
     # ---------------
     # Size of system:
@@ -94,7 +114,7 @@ def setrun(claw_pkg='digclaw'):
     # Initial time:
     # -------------
 
-    clawdata.t0 = 0.0 #38895.0
+    clawdata.t0 = 0.0
 
 
     # -------------
@@ -109,18 +129,22 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 20
-        clawdata.tfinal = 20.0
-
+        tf = 60.#4200.
+        dt = 5. #output every 5 seconds
+        clawdata.nout = int(tf/5.)
+        #make spacing take precedent over final time:
+        clawdata.tfinal = tf - np.mod(tf,dt)
+        if clawdata.tfinal<tf:
+            clawdata.tfinal = clawdata.tfinal + dt
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
-        clawdata.tout =  [10.0,53.0e3,55.e3]
+        clawdata.tout =  [0.0,10.0,70.0,600.0,1200.0]
 
         clawdata.nout = len(clawdata.tout)
 
     elif clawdata.outstyle == 3:
         # Output every iout timesteps with a total of ntot time steps:
-        iout = 10
+        iout = 1
         ntot = 100
         clawdata.iout = [iout, ntot]
 
@@ -133,7 +157,7 @@ def setrun(claw_pkg='digclaw'):
     # The current t, dt, and cfl will be printed every time step
     # at AMR levels <= verbosity.  Set verbosity = 0 for no printing.
     #   (E.g. verbosity == 2 means print only on levels 1 and 2.)
-    clawdata.verbosity = 0
+    clawdata.verbosity = 4
 
 
 
@@ -150,12 +174,12 @@ def setrun(claw_pkg='digclaw'):
     clawdata.dt_initial = 1.e-16
 
     # Max time step to be allowed if variable dt used:
-    clawdata.dt_max = 1e+99
+    clawdata.dt_max = 1.0
 
     # Desired Courant number if variable dt used, and max to allow without
     # retaking step with a smaller dt:
     clawdata.cfl_desired = 0.25
-    clawdata.cfl_max = 0.9
+    clawdata.cfl_max = 0.5
 
     # Maximum number of time steps to allow between output times:
     clawdata.max_steps = 100000
@@ -178,7 +202,7 @@ def setrun(claw_pkg='digclaw'):
 
     # List of limiters to use for each wave family:
     # Required:  len(mthlim) == mwaves
-    clawdata.mthlim = [4,4,4,4,4]
+    clawdata.mthlim = [4,4,4,4,4,4]
 
     # Source terms splitting:
     #   src_split == 0  => no source term (src routine never called)
@@ -212,33 +236,33 @@ def setrun(claw_pkg='digclaw'):
     # ---------------
 
 
-    # max number of refinement levels:
-    mxnest = 2
+    # max number of refinement levels
 
-    clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
+    clawdata.mxnest = -levels   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [5,5,2,4]
-    clawdata.inraty = [5,5,2,4]
-    clawdata.inratt = [5,5,2,4]
+    clawdata.inratx = [r1,r2,r3]
+    clawdata.inraty = [r1,r2,r3]
+    clawdata.inratt = [r1,r2,r3]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
     # This must be a list of length maux, each element of which is one of:
     #   'center',  'capacity', 'xleft', or 'yleft'  (see documentation).
 
-    clawdata.auxtype = ['center','center','yleft','center','center','center','center','center','center','center']
+    clawdata.auxtype = ['center','center','yleft','center','center','xleft','yleft','xleft','yleft','center']
 
 
     clawdata.tol = -1.0     # negative ==> don't use Richardson estimator
     clawdata.tolsp = 0.5    # used in default flag2refine subroutine
                             # (Not used in geoclaw!)
 
-    clawdata.kcheck = 3     # how often to regrid (every kcheck steps)
-    clawdata.ibuff  = 3     # width of buffer zone around flagged points
+    clawdata.kcheck = 2     # how often to regrid (every kcheck steps)
+    clawdata.ibuff  = 4     # width of buffer zone around flagged points
     clawdata.cutoff = 0.7   # efficiency cutoff for grid generator
-    clawdata.checkpt_iousr = 10000000
+    clawdata.checkpt_iousr = 200
     clawdata.restart = False
+    clawdata.restart_file = 'fort.chk0693'
     # More AMR parameters can be set -- see the defaults in pyclaw/data.py
 
     return rundata
@@ -270,39 +294,33 @@ def setgeo(rundata):
     geodata.Rearth = Rearth
 
     # == settsunami.data values ==
-    geodata.sealevel = -1000.0
+    geodata.sealevel = 0.0
     geodata.drytolerance = 1.e-3
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
-    geodata.ifriction = 0
-    geodata.coeffmanning = 0.000
-    geodata.frictiondepth = 10000.0
+    geodata.ifriction = 1
+    geodata.coeffmanning = 0.060
+    geodata.frictiondepth = 2000.0
 
     # == settopo.data values ==
-    # set a path variable for the base topo directory for portability
+    # for topography, append lines of the form:
+    #   [topotype, minlevel,maxlevel,t0,tf,fname]
     geodata.topofiles = []
-    import os
+    
+    topopath = os.path.join('init_data','topo')
+    fname = os.path.join(topopath,'topodomain.tt3')
+    topotype = 3
+    minlevel =1
+    maxlevel = 4
+    geodata.topofiles.append([topotype, minlevel, maxlevel, -1.0, 1.e10, fname])
 
-    topopath = 'topo'
-    topofile1=os.path.join(topopath,'ZeroTopo.tt2')
-    topofile2=os.path.join(topopath,'Wall1Topo.tt2')
-    topofile3=os.path.join(topopath,'Wall2Topo.tt2')
-    topofile4=os.path.join(topopath,'ZeroTopoGate.tt2')
-
-    geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
-    geodata.topofiles.append([2, 2, 3, 0.0, 1.e10, topofile2])
-    geodata.topofiles.append([2, 2, 3, 0.0, 1.e10, topofile3])
-    geodata.topofiles.append([2, 4, 4, 0.0, 5.0, topofile4])
-
-
-    # == setdtopo.data values ==
     # == setdtopo.data values ==
     geodata.dtopofiles = []
     # for moving topography, append lines of the form:
     #   [topotype, minlevel,maxlevel,fname]
-    #dtopofile = os.path.join(topopath,'flumedoorsTXYZ_quaddelay.txt')
-    #geodata.dtopofiles.append([1,4,4,dtopofile])
+
+    #geodata.dtopofiles.append([1,3,3,'subfault.tt1'])
 
     # == setqinit.data values ==
     geodata.qinitfiles = []
@@ -311,13 +329,25 @@ def setgeo(rundata):
 
     #qinitftype: file-type, same as topo files, ie: 1, 2 or 3
     #The following values are allowed for iqinit:
-        #n=1,meqn perturbation of q(i,j,n)
-        #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
+        #n=1,mq perturbation of q(i,j,n)
+        #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
+    #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
+    topopath = os.path.join('init_data','qinit')
+    fname = os.path.join(topopath,'eta_init.tt3')
+    topotype = 3
+    meqn = 7 # number of equaitons
+    qn = meqn + 1 # eta
+    minlevel = 3
+    maxlevel = 3
+    geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
 
-    geodata.qinitfiles.append([2,8,3,3,'topo/FlumeQinit.tt2'])
-    #geodata.qinitfiles.append([2,4,3,3,'topo/FlumeQinit_m.tt2'])
-
-    # == setauxinit.data values ==
+    fname = os.path.join(topopath,'m0_init.tt2')
+    topotype = 2
+    qn = 4 # m (solid volume frac.)
+    minlevel = 3
+    maxlevel = 3
+    geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
+    
     geodata.auxinitfiles = []
     # for auxinit perturbations append lines of the form
     #   [auxinitftype,iauxinit, minlev, maxlev, fname]
@@ -326,23 +356,17 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #geodata.auxinitfiles.append([2,4,1,5,'aux/FlumePhi.tt2'])
-    geodata.auxinitfiles.append([2,5,1,5,'aux/FlumeTheta.tt2'])
-
     # == setregions.data values ==
     geodata.regions = []
     # to specify regions of refinement append lines of the form
     #  [minlevel,maxlevel,t1,t2,x1,x2,y1,y2]
-    #geodata.regions.append([4,4,0.,1e10,-5,5,0,2])
+    #geodata.regions.append([4,4,-10.0,1.e10,x1,x2,y1,y2])
+
 
     # == setgauges.data values ==
     geodata.gauges = []
     # for gauges append lines of the form  [gaugeno, x, y, t0, tf]
-    geodata.gauges.append([2, 2.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([32, 32.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([66, 66.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([90, 90.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([80, 80.0, 1.0, 0.0, 60e3])
+    #geodata.gauges.append([5000, 614324.222138,4898742.796443, 00.e3,60e3])
 
     # == setfixedgrids.data values ==
     geodata.fixedgrids = []
@@ -360,8 +384,8 @@ def setgeo(rundata):
     #flowgradevariable: 1=depth, 2= momentum, 3 = sign(depth)*(depth+topo) (0 at sealevel or dry land).
     #flowgradetype: 1 = norm(flowgradevariable), 2 = norm(grad(flowgradevariable))
     #flowgrademinlevel: refine to at least this level if flowgradevalue is exceeded.
-    geodata.flowgrades.append([1.e-6, 2, 1, 3])
-    geodata.flowgrades.append([1.e-6, 1, 1, 3])
+    geodata.flowgrades.append([1.e-8, 2, 1, 4])
+    geodata.flowgrades.append([0.001, 1, 1, 4])
 
     return rundata
 
@@ -381,23 +405,28 @@ def setdig(rundata):
     digdata.c1 = 1.0
     digdata.rho_f = 1100.0
     digdata.rho_s = 2700.0
-    digdata.phi_bed = 40.0
+    digdata.phi_bed = 38.0
+    digdata.phi_int = 38.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
-    digdata.m0 = 0.61
+    digdata.m0 = 0.62
     digdata.m_crit = 0.64
-    digdata.delta = 1.e-3
-    permeability = 1.e-10
-    digdata.kappita = permeability*np.exp((digdata.m0-0.60)/(0.04))
+    permeability = 1.0e-11
+    digdata.kappita = permeability #*np.exp((digdata.m0-0.60)/(0.04))
     digdata.alpha_c = 0.05
-    digdata.alpha_seg = 1.0
+    digdata.alpha_seg = 0.
+    digdata.phi_seg_coeff = 0.0
+    digdata.delta = 0.01
+    digdata.bed_normal = 0
+    digdata.entrainment = 0
+    digdata.entrainment_rate = 0.0
     digdata.sigma_0 = 1.e3
-    digdata.bed_normal = 1
+    digdata.phys_tol = rundata.geodata.drytolerance
 
     digdata.init_ptype = 0
-    digdata.init_pmax_ratio = 0.0
-    digdata.init_ptf  = 0.0
-    digdata.init_ptf2 = 0.0
+    digdata.init_pmax_ratio = 0.00e0
+    digdata.init_ptf = 0.0
+    digdata.init_ptf2= 0.0
 
     #-1 =0, 0 = hydro, 1,2 = failure or average failure, 3,4= p(t) to failure or average failure
     #to reduce to shallow water equations, uncomment the following
@@ -406,6 +435,7 @@ def setdig(rundata):
     #digdata.phi_bed = 0.0
     #digdata.kappita = 0.0
     #digdata.mu = 0.0
+
 
 
     return rundata
