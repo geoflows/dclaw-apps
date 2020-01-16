@@ -1,7 +1,7 @@
 
 % This routine is called after setplot2.m by plotclaw2.
 %
-% Set some additional things for ploting GeoClaw output.
+% Set some additional things for plotting D-Claw/GeoClaw output.
 %
 
 %PlotType = 11;     % = 11 for colored surface plot
@@ -148,7 +148,7 @@ else
 end
 
 %flow_colormap =zWaterColorsMalpasset;
-topo_colormap =zLandColorsMalpassetZoom;
+%topo_colormap =zLandColorsMalpassetZoom;
 topo_colormap = [ 0 Gray8;
                 10000. Gray8];
 
