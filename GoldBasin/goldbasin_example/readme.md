@@ -16,7 +16,7 @@ or you can modify `setrun.py` to point directly to DEMs.
 ```
 make .output
 ```
-Or, run in the background via nice, without exiting if you log off or quit your terminal, with screen output into `run.log`:
+Or, if you prefer, run in the background with `nohup` and `nice` (which prevents terminating the run if you log off or quit your terminal), and redirect screen output into `run.log` to keep a record of the run:
 ```
 nohup nice make .output > run.log &
 ```
