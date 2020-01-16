@@ -26,13 +26,19 @@ nohup nice make .output > run.log &
 * Execute matlab in inside the `_output` directory:
 ```
 matlab> pwd
-	/path/goldbasin_example/_output
+/path/goldbasin_example/_output
 ```
 * Results can be plotted with `plotclaw2.m`, and answer yes to use `setplot2.m`:
 ```
 matlab> plotclaw2
-matlab> yes
+plotclaw2  plots 2d results from clawpack or amrclaw
+Execute setplot2 (default = no)? yes
 ```
+You can then advance through each frame or output time. The interactive menu provides some options:
+```
+Hit <return> for next plot, or type k, r, rr, j, i, q, or ? 
+```
+enter `?` for explanation. Note, if you enter `k`, matlab enters a debug mode and no longer accepts `return` but instead type `dbcont` to continue plotting.   
 * Modify the local .m-files to your liking. For example, choose the perspective in `afterframe.m`:
 
 ```
@@ -53,7 +59,7 @@ would color the flow based on the flow depth. If you set
 ```
 mq = 5;						% which component of q to plot
 ```
-, the plots would use a colormap for the fluid pressure instead of the depth. 
+the plots would use a colormap for the fluid pressure instead of the depth. 
 
 * The colormaps are specified in `setprob.m`:
 
