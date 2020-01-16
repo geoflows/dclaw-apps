@@ -5,7 +5,7 @@ description: D-Claw is an extension of Clawpack for granular-fluid flows. See [g
 ---
 
 # Summary
-Application folders should be added under a parent folder of some kind (*eg,* dclaw-apps/flume/gate-release2020). See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geofclaw.org](http://www.geoclaw.org), and [clawpack.org](http://www.clawpack.org) for instructions to run or develop and contribute new applications.
+Application folders should be added under a parent folder of some kind (*eg,* dclaw-apps/flume/gate-release2020). See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), and [clawpack.org](http://www.clawpack.org) for instructions to run or develop and contribute new applications.
 
 Folders should have at the very least:
 * setrun.py
@@ -22,7 +22,7 @@ Optionally they might have:
 It's probably a good idea to make a note of the D-Claw code in the application directory...either the code commit that was used or (if I get more organized and have version releases of the code) a version or tag.  
 
 ## Running D-Claw apps
-see the README in [D-Claw repository](https://github.com/geoflows/D-Claw), and links to further documentation provided therein. Look for readme files in specific application folders as well.  
+see the README in the [D-Claw repository](https://github.com/geoflows/D-Claw), and links to further documentation provided therein. Look for readme files in specific application folders as well.  
 
 ## Plotting results
 #### matlab
@@ -100,8 +100,8 @@ Python can alternatively be used to produce mapview 2d plots, using setplot.py a
 If you would like to make contributions to D-Claw or dclaw-apps, please follow the development workflow used for Clawpack, described at [www.clawpack.org/developers](http://www.clawpack.org/developers.html). In summary, please fork the repositories to your own github account, and issue pull requests on a feature branch to github/geoflows, *eg,*:
 
 ```
-git clone git://github.com/geoflows/dclaw-apps.git
-cd D-Claw
+git clone https://github.com/geoflows/dclaw-apps.git
+cd dclaw-apps/
 git remote add username htpps://github.com/username/dlcaw-apps.git
 ```
 or if you have ssh keys and want to avoid typing your password when you push to github:
