@@ -102,7 +102,7 @@ If you would like to make contributions to D-Claw or dclaw-apps, please follow t
 ```
 git clone https://github.com/geoflows/dclaw-apps.git
 cd dclaw-apps/
-git remote add username htpps://github.com/username/dlcaw-apps.git
+git remote add username https://github.com/username/dclaw-apps.git
 ```
 or if you have ssh keys and want to avoid typing your password when you push to github:
 
