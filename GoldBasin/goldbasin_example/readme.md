@@ -5,32 +5,35 @@ description: simulate landslide at goldbasin site
 
 # running this simulation
 
-* to place required topography softlinks locally:
+* Place required topography softlinks locally:
 ```
 python setinit.py
 ```
-modify setinit.py based on the location of DEMs on your path
-or you can modify setrun.py to point directly to DEMs 
+Modify `setinit.py` based on the location of DEMs on your path
+or you can modify `setrun.py` to point directly to DEMs. 
 
-* to run the simulation:
+* Run the simulation:
 ```
 make .output
 ```
-or to run in the background via nice, without exiting if you log off or quit your terminal, with screen output into "run.log":
+Or, run in the background via nice, without exiting if you log off or quit your terminal, with screen output into `run.log`:
 ```
 nohup nice make .output > run.log &
 ```
 
 # plotting with matlab
 
+* Execute matlab in inside the `_output` directory:
+```
+matlab> pwd
+	/path/goldbasin_example/_output
+```
+* Results can be plotted with `plotclaw2.m`, and answer yes to use `setplot2.m`:
 ```
 matlab> plotclaw2
 matlab> yes
 ```
-
-Modify the local .m-files to your liking. For example:
-
-* choose the perspective in afterframe.m:
+* Modify the local .m-files to your liking. For example, choose the perspective in `afterframe.m`:
 
 ```
 % overhead/map view with labeling
@@ -40,19 +43,19 @@ mapview_label_gca;
 %obliqueview_gca;
 
 ```
-Or modify the axis properties in `obliqueview_gca.m`.
+or, you can modify the axis properties in `obliqueview_gca.m`.
 
-* choose the variable in the solution vector q used for the color-scale in the plots in `setplot2.m:` 
+* Choose the variable in the solution vector q used for the color-scale in the plots in `setplot2.m:` 
 ```
 mq =1;                       % which component of q to plot
 ```
-For instance, set
+would color the flow based on the flow depth. If you set
 ```
 mq = 5;						% which component of q to plot
 ```
-would use a colorscale based on the fluid pressure. 
+, the plots would use a colormap for the fluid pressure instead of the depth. 
 
-* set colormaps in `setprob.m`:
+* The colormaps are specified in `setprob.m`:
 
 ```
 if mq==6
@@ -69,7 +72,7 @@ else
     flow_colormap = z_eta;
 end
 ```
-modify the `flow_colormaps` defined in `setprob.m` to your liking. Note that the colormaps are used for a discrete or 'binned' scalebar, set in `afterframe.m`:
+You can modify the `flow_colormaps` chosen or defined in `setprob.m` to your liking. Note that the colormaps are used for a discrete or 'binned' scalebar, which is issued in `afterframe.m`:
 ```
 hcbar = colorbar_discrete(flow_colormap,hsurf.Parent);
 
