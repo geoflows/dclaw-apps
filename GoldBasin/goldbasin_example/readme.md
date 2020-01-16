@@ -21,7 +21,7 @@ or to run in the background via nice, without exiting if you log off or quit you
 nohup nice make .output > run.log &
 ```
 
-* to plot
+* to plot with matlab
 ```
 matlab> plotclaw2
 matlab> yes

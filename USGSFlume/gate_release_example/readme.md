@@ -1,4 +1,4 @@
-# GateRelease_example
+# gate_release_example
 
 ## Overview 
 
