@@ -28,6 +28,10 @@ nohup nice make .output > run.log &
 matlab> pwd
 /path/goldbasin_example/_output
 ```
+* Add the m-files in the parent directory of `_output`:
+```
+matlab> addpath ../
+```
 * Results can be plotted with `plotclaw2.m`, and answer yes to use `setplot2.m`:
 ```
 matlab> plotclaw2
