@@ -5,7 +5,7 @@ description: D-Claw is an extension of Clawpack for granular-fluid flows. See [g
 ---
 
 # Summary
-Application folders should be added under a parent folder of some kind (*eg,* dclaw-apps/flume/gate-release2020). See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), and [clawpack.org](http://www.clawpack.org) for instructions to run or develop and contribute new applications.
+Application folders should be added under a parent folder of some kind (*eg,* flume/ for the application folder dclaw-apps/flume/gate-release2020). See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), and [clawpack.org](http://www.clawpack.org) for instructions to run or develop and contribute new applications.
 
 Folders should have at the very least:
 * setrun.py
@@ -26,6 +26,12 @@ see the README in the [D-Claw repository](https://github.com/geoflows/D-Claw), a
 
 ## Plotting results
 #### matlab
+
+Matlab can be used to plot D-Claw output. From the output directory, use
+```
+matlab> plotclaw2
+```
+then follow the interactive menu to produce plots for each frame.
 
 TIP: For a given application, it is useful to relocate some of the m-files (*eg.,* afterframe.m, setplot2.m, setprob.m, beforeframe.m etc.) included with D-Claw to your local working application directory, where you can modify them to suit you present purposes without modifying your D-Claw source files (note that files in $CLAW/matlabgeo should take precedent over files of the same name in $CLAW/matlab. Unifying these directories is planned in the future, but they currently coexist so that the D-Claw source code can be used to run Geoclaw v4.x applications...more about that in the future). 
 
@@ -93,15 +99,25 @@ ylabel(hcbar,'flow depth (m)')
 
 #### python
 
-Python can alternatively be used to produce mapview 2d plots, using setplot.py and matplotlib. See [clawpack.org](http://www.clawpack.org) and [github/clawpack/visclaw](https://gihub.com/clawpack/visclaw) for more information about plotting with python. Note that Clawpack's v5.x python libraries may not be compatible with D-Claw v4.x output. 
+Python can alternatively be used to produce mapview 2D or 1D cross-sectional plots, as describe above, with:
+```
+make .plots
+```
+or
+```
+make plots
+```
+Make uses setplot.py and matplotlib.  Modify the routine setplot.py to your needs. 
+
+See README files and individual applications in this repository for more examples of how to use python plotting.
 
 ## Development
 
-If you would like to make contributions to D-Claw or dclaw-apps, please follow the development workflow used for Clawpack, described at [www.clawpack.org/developers](http://www.clawpack.org/developers.html). In summary, please fork the repositories to your own github account, and issue pull requests on a feature branch to github/geoflows, *eg,*:
+* If you would like to make contributions to dclaw-apps, please follow the development workflow used for Clawpack, described at [www.clawpack.org/developers](http://www.clawpack.org/developers.html). In summary, please fork the repositories to your own github account, and issue pull requests on a feature branch to github/geoflows, *eg,*:
 
 ```
 git clone https://github.com/geoflows/dclaw-apps.git
-cd dclaw-apps/
+cd dclaw-apps
 git remote add username https://github.com/username/dclaw-apps.git
 ```
 or if you have ssh keys and want to avoid typing your password when you push to github:
@@ -109,18 +125,28 @@ or if you have ssh keys and want to avoid typing your password when you push to 
 ```
 git remote add username git@github.com:username/dclaw-apps.git
 ```
-Develop in a branch other than master:
+These settings can be modified in your local working repository at anytime with `git remote set-url`.
+
+* Develop in a branch other than master:
 ```
 git checkout -b my_branch
 ```
-And then push to your repository:
+And then push to your repository on github:
 ```
 git push username my_branch
 ```
-Issue pull requests to geoflows/D-Claw from your repository to contribute to D-Claw. Update your master branches from geoflows/D-Claw:
+* Issue pull requests from your branch and repository on github.com (username/dclaw-apps) to contribute features or fixes to the master branch at geoflows/dclaw-apps. 
+
+* Update your master branches from geoflows/dclaw-apps:
 ```
 git pull origin master
 ```
+and then 
+```
+git push username master
+```
+to update your git remote. It is recommended that you do not commit to your own master branches, so that your master branches are easily updated from the geoflows repository.
+
 If you prefer, rename origin to something easy to remember ("geoflows" or "upstream" or similar):
 ```
 git remote rename origin geoflows
@@ -128,5 +154,5 @@ git remote rename origin geoflows
 
 ## License
 
-D-Claw inherits the Clawpack licenses and user agreements. 
+dclaw-apps code inherits the Clawpack licenses and user agreements. 
 
