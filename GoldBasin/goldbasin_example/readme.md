@@ -1,18 +1,23 @@
 ---
 title: goldbasin_example
-description: simulate landslide at goldbasin site
+description: simulation of a hypothetical landslide at goldbasin site
 ---
+# Overview
 
-# running this simulation
+A simulation of a hypothetical landslide at goldbasin site.
 
-* Place required topography softlinks locally:
+# Preprocessing
+
+Place required topography softlinks locally:
 ```
 python setinit.py
 ```
 Modify `setinit.py` based on the location of DEMs on your path
 or you can modify `setrun.py` to point directly to DEMs. 
 
-* Run the simulation:
+# Running/producing output
+
+From your application directory:
 ```
 make .output
 ```
@@ -21,7 +26,7 @@ Or, if you prefer, run in the background with `nohup` and `nice` (which prevents
 nohup nice make .output > run.log &
 ```
 
-# plotting with matlab
+# Plotting with matlab
 
 * Execute matlab in inside the `_output` directory:
 ```
