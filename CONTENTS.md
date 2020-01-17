@@ -10,10 +10,10 @@ dclaw-apps repository: [github/geoflows/dclaw-apps](https://github.com/geoflows/
 
 ## USGSflume
 
-#### * gate_release_example
+* gate_release_example
 
 
 ---
 ## GoldBasin
 
-#### goldbasin_example
+* goldbasin_example
