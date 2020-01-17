@@ -8,10 +8,9 @@ description: outline of application directories in this repository
 
 ## USGSflume/
 
-* gate_release_example/
+#### gate_release_example/
 
 
----
 ## GoldBasin/
 
-* goldbasin_example/
+#### goldbasin_example/
