@@ -9,12 +9,12 @@ function setplot is called to set the plot parameters.
 
 from pyclaw.geotools import topotools
 from pyclaw.data import Data
-import clawtools.digplot as cd
-import pdb
+import dclaw.dplot as cd
+#import pdb
 
 from pyclaw.plotters import colormaps, geoplot
 from numpy import linspace
-import local_dplot
+import dclaw.dplot as local_dplot
 
 #--------------------------
 def setplot(plotdata):
@@ -30,7 +30,7 @@ def setplot(plotdata):
 
     from pyclaw.plotters import colormaps, geoplot
     from numpy import linspace
-    import local_dplot
+    import dclaw.dplot as local_dplot
 
 
     plotdata.clearfigures()  # clear any old figures,axes,items data
@@ -115,8 +115,8 @@ def setplot(plotdata):
 
     plotdata.printfigs = True                # print figures
     plotdata.print_format = 'png'            # file format
-    plotdata.print_framenos = range(70,190,10)   # range(70,190,10)  # list of frames to print
-    plotdata.print_gaugenos = [0]            # list of gauges to print
+    plotdata.print_framenos = 'all'  # range(70,190,10)  # list of frames to print
+    plotdata.print_gaugenos = 'all'            # list of gauges to print
     plotdata.print_fignos = 'all'            # list of figures to print
     plotdata.html = True                     # create html files of plots?
     plotdata.html_homelink = '../README.html'   # pointer for top of index
