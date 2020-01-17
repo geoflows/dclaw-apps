@@ -5,27 +5,31 @@ description: D-Claw is an extension of Clawpack for granular-fluid flows. See [g
 ---
 
 # Summary
-Application folders should be added under a parent folder of some kind (*eg,* flume/ for the application folder dclaw-apps/flume/gate-release2020). See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), and [clawpack.org](http://www.clawpack.org) for instructions to run or develop and contribute new applications.
 
-Folders should have at the very least:
+Application folders of D-Claw simulations. This repository provides examples for setting-up your own D-Claw applications. These are also useful for testing your D-Claw installation. 
+See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), [clawpack.org](http://www.clawpack.org), and individual application folders for more instructions.
+
+
+Application folders should have at the very least:
 * setrun.py
 * Makefile
+* readme.md (specific information/instructions for each application)
 
 Optionally they might have:
 * matlab plotting files (*eg,* afterframe.m, setplot2.m)
 * python plotting files (setplot.py)
 * python scripts to set-up, for instance, topography.
 
+* See CONTENTS in this repository for a brief outline of what is here. This should be updated if you add applications (see Development below).
+
 **Note: some applications in this repository are used for ongoing collaborations and work in progress. Additionally, some may require proprietary data. Therefore, depending on the application, not all required data may be available. Check with dgeorge@uw.edu for info.**
 
-## D-Claw version
-It's probably a good idea to make a note of the D-Claw code in the application directory...either the code commit that was used or (if I get more organized and have version releases of the code) a version or tag.  
 
-## Running D-Claw apps
+# Running D-Claw apps
 see the README in the [D-Claw repository](https://github.com/geoflows/D-Claw), and links to further documentation provided therein. Look for readme files in specific application folders as well.  
 
-## Plotting results
-#### matlab
+# Plotting results
+### matlab
 
 Matlab can be used to plot D-Claw output. From the output directory, use
 ```
@@ -97,7 +101,7 @@ ylabel(hcbar,'flow depth (m)')
 ```
 
 
-#### python
+### python
 
 Python can alternatively be used to produce mapview 2D or 1D cross-sectional plots, as describe above, with:
 ```
@@ -111,7 +115,7 @@ Make uses setplot.py and matplotlib.  Modify the routine setplot.py to your need
 
 See README files and individual applications in this repository for more examples of how to use python plotting.
 
-## Development
+# Development
 
 * If you would like to make contributions to dclaw-apps, please follow the development workflow used for Clawpack, described at [www.clawpack.org/developers](http://www.clawpack.org/developers.html). In summary, please fork the repositories to your own github account, and issue pull requests on a feature branch to github/geoflows, *eg,*:
 
@@ -131,7 +135,7 @@ These settings can be modified in your local working repository at anytime with 
 ```
 git checkout -b my_branch
 ```
-And then push to your repository on github:
+Make your changes, and then push to your repository on github:
 ```
 git push username my_branch
 ```
@@ -151,6 +155,22 @@ If you prefer, rename origin to something easy to remember ("geoflows" or "upstr
 ```
 git remote rename origin geoflows
 ```
+
+## Adding your own application folders
+
+Application/simulations added to this repository should be placed in a parent folder with a descriptive name. That way if you or other users alter the simulations slightly and contribute those applications, they can be grouped together in a parent directory.
+
+Applications should have at the very least:
+* setrun.py
+* Makefile
+* readme.md (specific information/instructions for each application)
+
+Optionally they might have:
+* matlab plotting files (*eg,* afterframe.m, setplot2.m)
+* python plotting files (setplot.py)
+* python scripts to set-up, for instance, topography.
+
+Please also add an entry to the CONTENTS.md file in the repository parent directory. 
 
 ## License
 

@@ -3,9 +3,13 @@ title: gate_release_example
 description: simulation of a gate-release experiment
 ---
 
+# Overview
+
+A simulation of a gate-release experiment at the USGS debris-flow flume.
+
 # Preprocessing
 
-* create needed DEMs for initialization with:
+Create needed DEMs for initialization with:
 ```
 python setinit.py
 ```
