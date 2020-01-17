@@ -1,33 +1,48 @@
-# gate_release_example
+---
+title: gate_release_example
+description: simulation of a gate-release experiment
+---
 
-## Overview 
+# Preprocessing
 
-this is an example simulation of a gate-release experiment. 
-
-## Notes
-
-#### before running:
-
-* create input files needed (*eg.,* DEMs for geometry of the problem) 
-
+* create needed DEMs for initialization with:
 ```
-> python setinit.py
+python setinit.py
 ```
+This places DEMs for the topography and inital geometry etc. into gate_release_example/input_data/, read by setrun.py.
 
-#### to run the simulation:
+# Running/producing output
+
+From your application directory:
 ```
 make .output
 ```
-or to run in the background via nice, without exiting if you log off or quit your terminal, with screen output into "run.log" with a name of your choice:
+Or, if you prefer, run in the background with `nohup` and `nice` (which prevents terminating the run if you log off or quit your terminal), and redirect screen output into `run.log` to keep a record of the run:
 ```
 nohup nice make .output > run.log &
 ```
 
-* to plot with python (setplot or setplot_1d)
+# Plotting with python
+
+There are two examples of python plotting scripts, `setplot.py` and `setplot_1d.py`. The former produces a single set of overhead/mapview plots, the latter produces 1D cross-sectional plots. To choose which to use, modify the following line in Makefile:
+```
+CLAW_setplot_file = setplot.py      # File containing function to set plots
+```
+ or 
+ ```
+CLAW_setplot_file = setplot_1d.py      # File containing function to set plots
+ ```
+
+Then from your application directory:
+
 ```
 make .plots
 ```
+to check dependecies and take necessary steps to produce the plots. Alternatively, to make the plots from whatever output exists without checking dependencies:
+```
+make plots
+```
 
-matlab plotting is not set-up here, but you can copy and modify m-files from the D-Claw matlab libraries.
+
 
 
