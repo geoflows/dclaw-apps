@@ -3,17 +3,15 @@ title: table of contents
 description: outline of application directories in this repository
 ---
 
-# CONTENTS:
-
-dclaw-apps repository: [github/geoflows/dclaw-apps](https://github.com/geoflows/dclaw-apps)
+# CONTENTS of dclaw-apps:
 
 
-## USGSflume
+## USGSflume/
 
-* gate_release_example
+* gate_release_example/
 
 
 ---
-## GoldBasin
+## GoldBasin/
 
-* goldbasin_example
+* goldbasin_example/
