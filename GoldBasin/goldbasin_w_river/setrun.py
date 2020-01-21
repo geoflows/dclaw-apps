@@ -131,7 +131,7 @@ def setrun(claw_pkg='digclaw'):
         # Output nout frames at equally spaced times up to tfinal:
         tf = 120.#4200.
         dt = 2. #output every 5 seconds
-        clawdata.nout = int(tf/5.)
+        clawdata.nout = int(tf/dt)
         #make spacing take precedent over final time:
         clawdata.tfinal = tf - np.mod(tf,dt)
         if clawdata.tfinal<tf:

@@ -90,7 +90,7 @@ def makelinks_qinit():
     qinittarget[6] = os.path.join(qinittargetpath,'topo_landslide_subset_less1meter.tt3')
     qinitfname[6] = os.path.join(qinitdir,'eta_init_landslide_less1meter.tt3')
 
-    qinittarget[7] = os.path.join(qinittargetpath,'topo_river_surface_subset_335m.tt3')
+    qinittarget[7] = os.path.join(qinittargetpath,'topo_river_surface_subset_333m.tt3')
     qinitfname[7] = os.path.join(qinitdir,'eta_init_river_clipped.tt3')
 
     for i in xrange(0,nqinitfiles):
@@ -111,8 +111,8 @@ def build_eta_DEMs():
     lower_DEM(infile,outfile,1.00)
 
     infile  = os.path.join(qinittargetpath,'topo_river_surface_subset_200cm.tt3')
-    outfile = os.path.join(qinittargetpath,'topo_river_surface_subset_335m.tt3')
-    clip_DEM(infile,outfile,335.)
+    outfile = os.path.join(qinittargetpath,'topo_river_surface_subset_333m.tt3')
+    clip_DEM(infile,outfile,333.)
 
 def build_water_DEMs():
     infile = os.path.join(qinittargetpath,'topo_river_surface_subset_200cm.tt3')
@@ -145,7 +145,7 @@ def clip_DEM(infile,outfile,elevation):
 
     if (not os.path.isfile(outfile)):
         (X,Y,Z) = gt.topofile2griddata(infile)
-        Z[np.where(Z>elevation)] = elevation
+        Z[np.where(Z>elevation)] = -9999
         gt.griddata2topofile(X,Y,Z,outfile,topotype=3)
 
 if __name__=='__main__':

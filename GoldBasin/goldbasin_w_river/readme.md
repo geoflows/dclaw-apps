@@ -8,7 +8,7 @@ A simulation of a hypothetical landslide at goldbasin site with a river (water) 
 
 ### DEM files:
 
-File description
+File description (required DEMs)
 
 1. topo_with_slip_surface_and_riverbed.tt3 
     * A large topography file that includes both riverbed and landslide slip surface 
@@ -32,6 +32,8 @@ python setinit.py
 ```
 Modify `setinit.py` based on the location of DEMs on your path
 or you can modify `setrun.py` to point directly to DEMs. 
+
+Note: this setinit.py creates some modified DEMs for the river and landslide surface
 
 # Running/producing output
 
