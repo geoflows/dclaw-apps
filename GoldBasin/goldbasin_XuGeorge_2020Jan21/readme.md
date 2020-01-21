@@ -1,5 +1,5 @@
 ---
-title: goldbasin_w_river
+title: goldbasin_XuGeorge_2020Jan21
 description: simulation of a hypothetical landslide at goldbasin site with river near toe
 ---
 # Overview
