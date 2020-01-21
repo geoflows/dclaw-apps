@@ -19,6 +19,6 @@ description: outline of application directories in this repository
 #### goldbasin_example/
  * collaborative project (requires DEMs)
 
-#### goldbasin_w_river/
+#### goldbasin_w_river_example/
  * collaborative project (requires DEMs)
  * initializes river near the toe of the initial slide
