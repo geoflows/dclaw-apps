@@ -65,12 +65,12 @@ def makelinks_topo():
 
 #----------SOLUTION INITIAL CONDITIONS (qinit)---------------------------------
 def makelinks_qinit():
-    nqinitfiles = 6
+    nqinitfiles = 8
     qinittarget = [0]*nqinitfiles
     qinitfname = [0]*nqinitfiles
 
     qinittarget[0] = os.path.join(qinittargetpath,'topo_landslide_subset.tt3')
-    qinitfname[0] = os.path.join(qinitdir,'eta_init.tt3')
+    qinitfname[0] = os.path.join(qinitdir,'eta_init_landslide.tt3')
 
     qinittarget[1] = os.path.join(qinittargetpath,'topo_river_surface_subset_200cm.tt3')
     qinitfname[1] = os.path.join(qinitdir,'eta_init_river_200cm.tt3')
@@ -87,6 +87,12 @@ def makelinks_qinit():
     qinittarget[5] = os.path.join(qinittargetpath,'m0_landslide_0.62.tt3')
     qinitfname[5] = os.path.join(qinitdir,'m0_init_landslide_0.62.tt3')
 
+    qinittarget[6] = os.path.join(qinittargetpath,'topo_landslide_subset_less1meter.tt3')
+    qinitfname[6] = os.path.join(qinitdir,'eta_init_landslide_less1meter.tt3')
+
+    qinittarget[7] = os.path.join(qinittargetpath,'topo_river_surface_subset_335m.tt3')
+    qinitfname[7] = os.path.join(qinitdir,'eta_init_river_clipped.tt3')
+
     for i in xrange(0,nqinitfiles):
         if not os.path.isfile(qinitfname[i]):
             execstr = 'ln -s '+qinittarget[i] +' '+qinitfname[i]
@@ -94,7 +100,21 @@ def makelinks_qinit():
 
 
 #------------BUILD INITIALIZATION CONDITIONS FOR PURE WATER RIVER------------------
-def build_water_init():
+def build_eta_DEMs():
+    """ note: this creates initialization files for eta that are "clipped" 
+              or lowered, from the topography data. Interpolation discrepancies otherwise 
+              lead to a very thin layer or water or landslide material everywhere.
+    """
+
+    infile = os.path.join(qinittargetpath,'topo_landslide_subset.tt3')
+    outfile = os.path.join(qinittargetpath,'topo_landslide_subset_less1meter.tt3')
+    lower_DEM(infile,outfile,1.00)
+
+    infile  = os.path.join(qinittargetpath,'topo_river_surface_subset_200cm.tt3')
+    outfile = os.path.join(qinittargetpath,'topo_river_surface_subset_335m.tt3')
+    clip_DEM(infile,outfile,335.)
+
+def build_water_DEMs():
     infile = os.path.join(qinittargetpath,'topo_river_surface_subset_200cm.tt3')
     outfile = os.path.join(qinittargetpath,'m0_river_subset_200cm.tt3')
     make_m0_DEM(infile,outfile,0.0)
@@ -114,10 +134,26 @@ def make_m0_DEM(infile,outfile,m0):
         Z = 0.*Z + m0
         gt.griddata2topofile(X,Y,Z,outfile,topotype=3)
 
+def lower_DEM(infile,outfile,dZ):
+
+    if (not os.path.isfile(outfile)):
+        (X,Y,Z) = gt.topofile2griddata(infile)
+        Z = Z - dZ
+        gt.griddata2topofile(X,Y,Z,outfile,topotype=3)
+
+def clip_DEM(infile,outfile,elevation):
+
+    if (not os.path.isfile(outfile)):
+        (X,Y,Z) = gt.topofile2griddata(infile)
+        Z[np.where(Z>elevation)] = elevation
+        gt.griddata2topofile(X,Y,Z,outfile,topotype=3)
 
 if __name__=='__main__':
 
-    build_water_init()
+    build_eta_DEMs()
+    build_water_DEMs()
+
+
     makelinks_topo()
     makelinks_qinit()
 

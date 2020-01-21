@@ -129,8 +129,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        tf = 60.#4200.
-        dt = 5. #output every 5 seconds
+        tf = 120.#4200.
+        dt = 2. #output every 5 seconds
         clawdata.nout = int(tf/5.)
         #make spacing take precedent over final time:
         clawdata.tfinal = tf - np.mod(tf,dt)
@@ -332,8 +332,10 @@ def setgeo(rundata):
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
     #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
+
+    #--- set landslide material (eta and m0)-------------------------
     topopath = os.path.join('init_data','qinit')
-    fname = os.path.join(topopath,'eta_init.tt3')
+    fname = os.path.join(topopath,'eta_init_landslide_less1meter.tt3')
     topotype = 3
     meqn = 7 # number of equaitons
     qn = meqn + 1 # eta
@@ -348,10 +350,19 @@ def setgeo(rundata):
     maxlevel = 3
     geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
 
+    #---- set river material (eta and m0)-------------------------------
+    fname = os.path.join(topopath,'eta_init_river_clipped.tt3')
+    topotype = 3
+    meqn = 7 # number of equaitons
+    qn = meqn + 1 # eta
+    minlevel = 2
+    maxlevel = 3
+    geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
+
     fname = os.path.join(topopath,'m0_init_river_200cm.tt3')
     topotype = 3
     qn = 4 # m (solid volume frac.)
-    minlevel = 3
+    minlevel = 2
     maxlevel = 3
     geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
     
