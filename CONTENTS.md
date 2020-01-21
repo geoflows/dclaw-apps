@@ -22,3 +22,7 @@ description: outline of application directories in this repository
 #### goldbasin_w_river_example/
  * collaborative project (requires DEMs)
  * initializes river near the toe of the initial slide
+
+#### goldbasin_XuGeorge_2020Jan21
+ * collaborative project (requires DEMs)
+ * initializes river near the toe of the initial slide
