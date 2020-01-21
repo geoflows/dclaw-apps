@@ -95,9 +95,9 @@ mq =1;                       % which component of q to plot
 ```
 would color the flow based on the flow depth. If you set
 ```
-mq = 5;						% which component of q to plot
+mq = 4;						% which component of q to plot
 ```
-the plots would use a colormap for the fluid pressure instead of the depth. 
+the plots would use a colormap for the solid-volume fraction instead of the depth. 
 
 * The colormaps are specified in `setprob.m`:
 
