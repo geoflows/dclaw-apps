@@ -48,10 +48,15 @@ topotarget = [0]*ntopofiles
 topofname = [0]*ntopofiles
 
 topotargetpath = os.path.join(topodata,'gold_basin','Cannon','HeadMidLobe_n80p2_ascii')
-topotarget[0] = os.path.join(topotargetpath,'headmidlobe_n80p2_topo_with_slip_surface.tt3')
+topotarget[0] = os.path.join(topotargetpath,'headmidlobe_n80p2_topo_with_slip_surface.tt3)
 topofname[0] = os.path.join(topodir,'topodomain.tt3')
 
 for i in xrange(0,ntopofiles):
+    if not os.path.isfile(topotarget[i]):
+        print 'ERROR:'
+        print 'The target file ',topotarget[i], 'does not exist.'
+        print 'Check the path to the file in setinit.py'
+        exit()
     if not os.path.isfile(topofname[i]):
         execstr = 'ln -s '+topotarget[i] +' '+topofname[i]
         os.system(execstr)
@@ -69,6 +74,11 @@ qinittarget[1] = os.path.join(topotargetpath,'m0_62_gold_basin_slide_subset.tt2'
 qinitfname[1] = os.path.join(qinitdir,'m0_init.tt2')
 
 for i in xrange(0,nqinitfiles):
+    if not os.path.isfile(qinittarget[i]):
+        print 'ERROR:'
+        print 'The target file ',qinittarget[i], 'does not exist.'
+        print 'Check the path to the file in setinit.py'
+        exit()
     if not os.path.isfile(qinitfname[i]):
         execstr = 'ln -s '+qinittarget[i] +' '+qinitfname[i]
         os.system(execstr)
