@@ -10,9 +10,9 @@ import setrun
 import numpy as np
 import matplotlib as mp
 import matplotlib.pyplot as pplt
-import clawtools.digplot as digplot
+import dclaw.dplot as digplot
 from pyclaw.plotters import geoplot
-import clawtools.gaugedata as cg
+import dclaw.gaugedata as cg
 import pytools.scalebars as scalebars
 import pylab
 import pdb
