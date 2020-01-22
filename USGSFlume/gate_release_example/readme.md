@@ -5,7 +5,11 @@ description: simulation of a gate-release experiment
 
 # Overview
 
-A simulation of a gate-release experiment at the USGS debris-flow flume.
+A simulation of a gate-release experiment at the USGS debris-flow flume. This example uses bed-normal coordinates for the simple flume geometry. The variable flume slope-angle is set by the input file:
+
+`init_data/aux/FlumeTheta.tt2 `
+
+which is created by setinit.py, among other files, such as topography that is normal to the bed slope (flume walls).
 
 # Preprocessing
 

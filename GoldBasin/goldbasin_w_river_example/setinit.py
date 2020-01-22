@@ -59,6 +59,11 @@ def makelinks_topo():
     topofname[0] = os.path.join(topodir,'topodomain_w_riverbed.tt3')
 
     for i in xrange(0,ntopofiles):
+        if not os.path.isfile(topotarget[i]):
+            print 'ERROR:'
+            print 'The file ',topotarget[i], 'does not exist.'
+            print 'Check the path to the file in setinit.py'
+        exit()
         if not os.path.isfile(topofname[i]):
             execstr = 'ln -s '+topotarget[i] +' '+topofname[i]
             os.system(execstr)
@@ -94,6 +99,11 @@ def makelinks_qinit():
     qinitfname[7] = os.path.join(qinitdir,'eta_init_river_clipped.tt3')
 
     for i in xrange(0,nqinitfiles):
+        if not os.path.isfile(qinittarget[i]):
+            print 'ERROR:'
+            print 'The target file ',qinittarget[i], 'does not exist.'
+            print 'Check the path to the file in setinit.py'
+        exit()
         if not os.path.isfile(qinitfname[i]):
             execstr = 'ln -s '+qinittarget[i] +' '+qinitfname[i]
             os.system(execstr)
