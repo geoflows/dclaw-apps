@@ -6,7 +6,7 @@ description: D-Claw is an extension of Clawpack for granular-fluid flows. See [g
 
 # Summary
 
-Application folders of D-Claw simulations. This repository provides examples for setting-up your own D-Claw applications. These are also useful for testing your D-Claw installation. 
+This repository, dclaw-apps, provides examples of D-Claw applications. These can be copied and modified for setting up your own applications, or used as is for testing your D-Claw installation. 
 See the [D-Claw repository](https://github.com/geoflows/D-Claw), [geoclaw.org](http://www.geoclaw.org), [clawpack.org](http://www.clawpack.org), and individual application folders for more instructions.
 
 
@@ -135,23 +135,35 @@ These settings can be modified in your local working repository at anytime with 
 ```
 git checkout -b my_branch
 ```
-Make your changes, and then push to your repository on github:
+Make your changes, commit, and then push to your repository on github:
 ```
+git commit -am "comments and description"
 git push username my_branch
 ```
 * Issue pull requests from your branch and repository on github.com (username/dclaw-apps) to contribute features or fixes to the master branch at geoflows/dclaw-apps. 
 
 * Update your master branches from geoflows/dclaw-apps:
 ```
+git checkout master
 git pull origin master
 ```
 and then 
 ```
 git push username master
 ```
-to update your git remote. It is recommended that you do not commit to your own master branches, so that your master branches are easily updated from the geoflows repository.
+to update your git remote master branch. It is recommended that you do not commit to your own master branches, so that your master branches are easily updated from the geoflows repository.
 
-If you prefer, rename origin to something easy to remember ("geoflows" or "upstream" or similar):
+* When you are finished making changes, you can delete your feature branch,  
+```
+git branch -D my_branch
+```
+or keep it for future development after merging changes from the updated master branch
+```
+git checkout my_branch
+git merge master
+```
+
+* Note: Because there are multiple remote repositories to keep track of (github.com/geoflows and your github.com/username), if you prefer, rename "origin" to something easy to remember ("geoflows" or "upstream" or similar):
 ```
 git remote rename origin geoflows
 ```
