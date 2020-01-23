@@ -16,7 +16,7 @@ CLAW_PKG = digclaw                  # Clawpack package to use
 CLAW_EXE = xgeoclaw                 # Executable to create
 CLAW_setrun_file = setrun.py        # File containing function to make data
 CLAW_OUTDIR = _output               # Directory for output
-CLAW_setplot_file = setplot.py      # File containing function to set plots
+CLAW_setplot_file = setplot_1d.py      # File containing function to set plots
 CLAW_PLOTDIR = _plots               # Directory for plots
 
 # Environment variable FC should be set to fortran compiler, e.g. gfortran
