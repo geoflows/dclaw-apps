@@ -63,6 +63,7 @@ def makelinks_topo():
             print 'ERROR:'
             print 'The target file ',topotarget[i], 'does not exist.'
             print 'Check the path to the file in setinit.py'
+            exit()
         if not os.path.isfile(topofname[i]):
             execstr = 'ln -s '+topotarget[i] +' '+topofname[i]
             os.system(execstr)
@@ -102,7 +103,7 @@ def makelinks_qinit():
             print 'ERROR:'
             print 'The target file ',qinittarget[i], 'does not exist.'
             print 'Check the path to the file in setinit.py'
-        exit()
+            exit()
         if not os.path.isfile(qinitfname[i]):
             execstr = 'ln -s '+qinittarget[i] +' '+qinitfname[i]
             os.system(execstr)
