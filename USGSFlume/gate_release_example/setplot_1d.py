@@ -13,7 +13,7 @@ import matplotlib.pyplot as pplt
 import dclaw.dplot as digplot
 from pyclaw.plotters import geoplot
 import dclaw.gaugedata as cg
-import pytools.scalebars as scalebars
+#import pytools.scalebars as scalebars
 import pylab
 import pdb
 
