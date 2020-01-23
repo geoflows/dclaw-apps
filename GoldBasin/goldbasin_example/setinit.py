@@ -48,7 +48,7 @@ topotarget = [0]*ntopofiles
 topofname = [0]*ntopofiles
 
 topotargetpath = os.path.join(topodata,'gold_basin','Cannon','HeadMidLobe_n80p2_ascii')
-topotarget[0] = os.path.join(topotargetpath,'headmidlobe_n80p2_topo_with_slip_surface.tt3)
+topotarget[0] = os.path.join(topotargetpath,'headmidlobe_n80p2_topo_with_slip_surface.tt3')
 topofname[0] = os.path.join(topodir,'topodomain.tt3')
 
 for i in xrange(0,ntopofiles):
