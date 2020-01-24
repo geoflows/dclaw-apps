@@ -1,7 +1,7 @@
 
 % This routine is called after setplot2.m by plotclaw2.
 %
-% Set some additional things for ploting GeoClaw output.
+% Set some additional things for plotting D-Claw/GeoClaw output.
 %
 
 %PlotType = 11;     % = 11 for colored surface plot
@@ -9,12 +9,12 @@
 quiverplot=0;
 PlotFlow = 1;      % plot the surface of the flow
 PlotTopo = 1;      % plot the topography
-ContourValues = linspace(0.001,1.0,10);
+ContourValues = linspace(-1,1,21);
 topoContourValues = 30;   % Contour levels for topo.
                           % Set to either a scalar or vector
 
 
-
+discrete_colormap=1;
 geo_setzcolormaps;    % set up some useful default colormaps for land, water
 
 zWaterColorsMalpasset = [0  DarkBlue;
@@ -36,14 +36,15 @@ zLandColorsMalpasset = [   0  DarkGreen;
                            150 Brown;
                            200 White];
 
-zLandColorsMalpassetZoom = [   0  DarkGreen;
-                           10  Green;
-                           15  LightGreen;
-                           25  Brown;
-                           35 Tan;
+zLandColorsMalpassetZoom = [   1200  DarkGreen;
+                           1400  Green;
+                           1550  LightGreen;
+                           1600  Brown;
+                           2000 Tan;
+                           2800 White;
                            ];
 
-zFlume = [ 1.117 Gray5;
+zFlume = [ 1.117 Tan;
             1.115 Gray8];
 
 zRedWhiteBlue = [-10 Green
@@ -55,41 +56,101 @@ z_flumedepth = [.5 DarkBlue;
                 .1 White;
                 0.0 Red];
 
-z_velocity = [10 Red;
-                15 White;
-                20 Blue];
+z_velocity = [ 0 White;
+                10.0 Red];
 
-z_velocity2 = [ 0 Blue;
-                0.5 White;
+z_velocity2 = [ -1 Blue;
+                0 White;
                 1. Red];
 
-z_depth = [0. White
-            0.08 Tan;
-            0.16  Brown];
+z_depth = [0. White;
+           10.0 LightBlue;
+           20.0 Blue];
+       
+z_eta= [364-2. Blue;
+           364 White;
+           364+2. Red];
+       
+lse = 364.;
+zcm = jet(12);
+tse = [-5,-2,-1,-0.1,.1,1,2,5,20]+lse;
+Zcm = [zcm(1:4,:);White;zcm(end-3:end,:)];
+z_eta = [tse',Zcm];
+
+lse = 364.;
+zcm = jet(16);
+%tse = [-0.1,.1,0.5,1,2,5,10,20]+lse;
+tse = [-.5,0.1,.2,0.4,0.6,0.8,1.0,2.0,20]+lse;
+Zcm = [zcm(4,:);White;zcm(end-6:end,:)];
+z_eta = [tse',Zcm];
 
 
-z_m = [0.61 Blue;
-        0.64 White;
-            0.67 Red];
 
- zDigPressure = [0  White;
-                10/18.5  LightGreen;
-                1.0  Blue];
+z_m = [0.0 Blue;
+        0.5 White;
+            1.0 Red];
+        
+zcm = jet(8);
+tse = [.1,.2,.3,.4,.5,.6,1];
+%tse = [1.1,1.2,1.3,1.4,1.5,1.6,11];
+Zcm = [zcm(1:6,:);.42,.167,.03];
+z_m = [tse',Zcm];
+
+z_m_brown = [0.0 0.2,0.2,0.7;
+        0.35 White;
+            0.7 .42,.167,.03];
+        
+%        z_m_brown = [.60 Blue;
+%        0.62 Red;
+%            0.64 Blue];
+
+ zDigPressure = [-1 Red;
+                0  White;
+                10/18.5  LightBlue;
+                1  Blue];
+            
+zcm = flipud(winter(5));
+tse = [0.1,.2,.4,.6,.8,1];
+nc = length(tse)-2;
+Zcm = [White;zcm(end-nc:end,:)];
+zDigPressure = [tse',Zcm];
+
+zcm = flipud(hot(8));
+%tse = [0.1,.25,1.,2,10,50,100,500];
+tse = [.01,.05,0.1,0.2,0.5,1.0,2.0,500];
+nc = length(tse)-2;
+Zcm = [White;zcm(end-nc:end,:)];
+z_depth = [tse',Zcm];
+
+           zLandColorsMalpasset = [   0  DarkGreen;
+                           200  Green;
+                           400  LightGreen;
+                           600  Tan;
+                           800 Brown;
+                           1000 White];
+
+           zWaterColorsMalpasset = [-5  DarkBlue;
+                          0 White;
+                         5 Red];
 
 if mq==6
-    flow_colormap = z_velocity2;
+    flow_colormap = z_velocity;
 elseif mq==5
     flow_colormap =zDigPressure;
 elseif mq == 1
     flow_colormap = z_depth;
 elseif mq==4
     flow_colormap = z_m;
+elseif mq==2
+    flow_colormap = z_velocity2;
 else
-    flow_colormap = z_velocity;
+    flow_colormap = z_eta;
 end
 
-topo_colormap =zFlume;
-
+%flow_colormap =zWaterColorsMalpasset;
+%topo_colormap =zLandColorsMalpassetZoom;
+topo_colormap = [ 0 Gray8;
+                10000. Gray8];
 
 
 % or for non default colormaps for the water

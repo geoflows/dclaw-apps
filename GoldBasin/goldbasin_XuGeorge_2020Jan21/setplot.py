@@ -7,16 +7,14 @@ function setplot is called to set the plot parameters.
 
 """
 
-from pyclaw.geotools import topotools
+
 from pyclaw.data import Data
 import matplotlib.pyplot as plt
 #plt.rc('text',usetex=True)
 #plt.rc('font', family='serif')
 
-
-import local_dplot
-import local_dplot as ld
-import dclaw.dplot as dd
+import dclaw.dplot as dd 
+local_dplot = dd
 
 ft2m = 0.3048
 
@@ -63,7 +61,7 @@ def setplot(plotdata):
         pylab.axis('off')
         ts = (r't = %4.1f s' % t)
 
-        pylab.text(6.95e5+200,1.202e6-1000,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
+        #pylab.text(6.95e5+200,1.202e6-1000,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
         #pylab.text(425250-3000,141850+1500,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
 
         #pylab.text(424100,142000,'90',style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=20)
