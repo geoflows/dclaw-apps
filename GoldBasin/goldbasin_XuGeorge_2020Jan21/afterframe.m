@@ -27,5 +27,4 @@ set(hcbar,'FontSize',18);
 %set(hcbar,'Location','westoutside');
 %set(hcbar,'Location','southoutside');
 
-
 makeframepng
