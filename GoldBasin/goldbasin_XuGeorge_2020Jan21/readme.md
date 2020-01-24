@@ -122,3 +122,13 @@ hcbar = colorbar_discrete(flow_colormap,hsurf.Parent);
 
 ylabel(hcbar,'flow depth (m)')
 ```
+
+# Plotting with python
+
+Plotting with python can be done by issuing 
+```
+make .plots
+```
+which executes setplot.py. 
+
+Note: setplot.py is not currently adapted for this application, but can be modified to your needs. Developing setplot.py for this application as an example is planned in the future.

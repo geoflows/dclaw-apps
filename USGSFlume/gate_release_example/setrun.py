@@ -275,8 +275,8 @@ def setgeo(rundata):
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
-    geodata.ifriction = 0
-    geodata.coeffmanning = 0.000
+    geodata.ifriction = 1
+    geodata.coeffmanning = 0.025
     geodata.frictiondepth = 10000.0
 
     # == settopo.data values ==
@@ -378,23 +378,28 @@ def setdig(rundata):
     digdata.c1 = 1.0
     digdata.rho_f = 1100.0
     digdata.rho_s = 2700.0
-    digdata.phi_bed = 40.0
+    digdata.phi_bed = 38.0
+    digdata.phi_int = 38.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
-    digdata.m0 = 0.61
+    digdata.m0 = 0.62
     digdata.m_crit = 0.64
-    digdata.delta = 1.e-3
-    permeability = 1.e-10
-    digdata.kappita = permeability*np.exp((digdata.m0-0.60)/(0.04))
+    permeability = 1.0e-8
+    digdata.kappita = permeability
     digdata.alpha_c = 0.05
-    digdata.alpha_seg = 1.0
-    digdata.sigma_0 = 1.e3
+    digdata.alpha_seg = 0.
+    digdata.phi_seg_coeff = 0.0
+    digdata.delta = 0.01
     digdata.bed_normal = 1
+    digdata.entrainment = 0
+    digdata.entrainment_rate = 0.0
+    digdata.sigma_0 = 1.e3
+    digdata.phys_tol = rundata.geodata.drytolerance
 
     digdata.init_ptype = 0
-    digdata.init_pmax_ratio = 0.0
-    digdata.init_ptf  = 0.0
-    digdata.init_ptf2 = 0.0
+    digdata.init_pmax_ratio = 0.00e0
+    digdata.init_ptf = 0.0
+    digdata.init_ptf2= 0.0
 
     #-1 =0, 0 = hydro, 1,2 = failure or average failure, 3,4= p(t) to failure or average failure
     #to reduce to shallow water equations, uncomment the following

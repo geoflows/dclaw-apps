@@ -7,16 +7,14 @@ function setplot is called to set the plot parameters.
 
 """
 
-from pyclaw.geotools import topotools
+
 from pyclaw.data import Data
 import matplotlib.pyplot as plt
 #plt.rc('text',usetex=True)
 #plt.rc('font', family='serif')
 
-
-import local_dplot
-import local_dplot as ld
-import dclaw.dplot as dd
+import dclaw.dplot as dd 
+local_dplot = dd
 
 ft2m = 0.3048
 
