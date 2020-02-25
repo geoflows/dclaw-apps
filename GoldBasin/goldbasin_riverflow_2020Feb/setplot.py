@@ -61,7 +61,7 @@ def setplot(plotdata):
         pylab.axis('off')
         ts = (r't = %4.1f s' % t)
 
-        pylab.text(6.95e5+200,1.202e6-1000,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
+        #pylab.text(6.95e5+200,1.202e6-1000,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
         #pylab.text(425250-3000,141850+1500,ts,style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=30)
 
         #pylab.text(424100,142000,'90',style='italic',bbox={'facecolor':'white','alpha':1.0,'pad':10},fontsize=20)
@@ -117,16 +117,14 @@ def setplot(plotdata):
     # Debris
     plotitem = plotaxes.new_plotitem(plot_type='2d_pcolor')
     plotitem.show = True
-    #plotitem.pcolor_cmap = local_dplot.solid_frac_colormap
-    plotitem.plot_var = dd.depth
-    plotitem.plot_var = dd.flume
-    #plotitem.pcolor_cmap = local_dplot.solid_frac_colormap
-    #plotitem.plot_var = dd.solid_frac
+    #plotitem.plot_var = dd.liquefaction_ratio
+    plotitem.pcolor_cmap = local_dplot.solid_frac_colormap
+    plotitem.plot_var = dd.solid_frac
     #plotitem.plot_var = dd.particle_size
     #plotitem.pcolor_cmap = local_dplot.oso_debris_colormap_liquefaction
-    #plotitem.pcolor_cmin = 0.0#.55#0.615
-    #plotitem.pcolor_cmax = 1.0
-    #plotitem.add_colorbar = True
+    plotitem.pcolor_cmin = 0.0#.55#0.615
+    plotitem.pcolor_cmax = 1.0
+    plotitem.add_colorbar = True
     #plotitem.kwargs = {'fontsize':20}
     plotitem.amr_gridlines_show = [1,0,0,0,0]
     plotitem.gridedges_show = 0
