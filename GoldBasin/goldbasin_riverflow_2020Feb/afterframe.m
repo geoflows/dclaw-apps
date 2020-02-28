@@ -13,8 +13,8 @@ camlight left
 lighting gouraud
 material dull
 hcbar = colorbar_discrete(flow_colormap,hsurf.Parent);
-%ylabel(hcbar,'surface elevation (m)');
-ylabel(hcbar,'solid fraction')
+ylabel(hcbar,'surface elevation (m)');
+%ylabel(hcbar,'solid fraction')
 %ylabel(hcbar,'fluid pressure ratio')
 %ylabel(hcbar,'flow depth (m)')
 

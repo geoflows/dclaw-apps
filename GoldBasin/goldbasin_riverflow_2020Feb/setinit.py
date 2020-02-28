@@ -96,8 +96,8 @@ def makelinks_qinit():
     qinittarget[6] = os.path.join(qinittargetpath,'topo_landslide_subset_less1meter.tt3')
     qinitfname[6] = os.path.join(qinitdir,'eta_init_landslide_less1meter.tt3')
 
-    qinittarget[7] = os.path.join(qinittargetpath2,'clip_water_surface_subset_200cm.asc.tt3')
-    qinitfname[7] = os.path.join(qinitdir,'m0_init_river_200cm_clipped.tt3')
+    qinittarget[7] = os.path.join(qinittargetpath2,'m0_clip_water_surface_subset_200cm.tt2')
+    qinitfname[7] = os.path.join(qinitdir,'m0_init_river_200cm_clipped.tt2')
 
     qinittarget[8] = os.path.join(qinittargetpath2,'clip_water_surface_subset_200cm.asc.tt3')
     qinitfname[8] = os.path.join(qinitdir,'eta_init_river_200cm_clipped.tt3')

@@ -359,8 +359,8 @@ def setgeo(rundata):
     maxlevel = 3
     geodata.qinitfiles.append([topotype,qn,minlevel,maxlevel,fname])
 
-    fname = os.path.join(topopath,'m0_init_river_200cm_clipped.tt3')
-    topotype = 3
+    fname = os.path.join(topopath,'m0_init_river_200cm_clipped.tt2')
+    topotype = 2
     qn = 4 # m (solid volume frac.)
     minlevel = 2
     maxlevel = 3
