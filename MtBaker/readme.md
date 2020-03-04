@@ -34,9 +34,13 @@ Multiple landslide sources from near Sherman Crater. Leads to lahars that flow e
 
 This source leads to inundation of Baker Lake.
 
-* simulations:
+2. Demming source: deming_n70_topo_with_slip_surface.tt3
 
-1. Baker_finn_src_wlakes/ -- Finn source with lakes and lake inundation.
+# Simulations:
+
+1. Baker_finn_src_wlakes/ -- Finn source with lakes and lake inundation. Flow travels eastward from source.
+
+2. Baker_demming_src_wlakes/ -- Demming source with lakes. Limited lake inundation. Flow travels westward into Nooksack river basin toward Puget Sound.  Simulation time: 2 hours.
 
 # Running/producing output
 
