@@ -1,17 +1,14 @@
 ---
-title: goldbasin_riverflow_2020Feb
-description: simulation of a hypothetical landslide at goldbasin site with river near toe. Non-flat river leads to river flow.
+title: MtBaker
+description: simulations of landslides, lahars and lake inundation for Mt. Baker
 ---
 # Overview
 
-A simulation of a hypothetical landslide at goldbasin site with a river (water) near the toe. Developed by Yuankun Xu and David George. 
+Multiple landslide sources from near Sherman Crater. Leads to lahars that flow east and west. Inundation of Baker Lake occurs for some sources
 
 ### Relevant/unique parameters for this simulation
 
-* the variable river surface elevation from input file: eta_init_landslide_less1meter.tt3
-* the initial porosity is set in setinit.py to `m0 = 0.62`
-* the critical porosity is set in setrun.py to `digdata.m_crit = 0.625 `
-  (this leads to a mildly contractive, relatively mobile flow)
+* m0 set by files to 0.62.
 * the manning coefficient for the fluid phase is: `geodata.coeffmanning = 0.060 `
 
 
@@ -19,30 +16,31 @@ A simulation of a hypothetical landslide at goldbasin site with a river (water) 
 
 ### Required DEM files:
 
-* File description (required input DEMs)
+* all simulations
 
-1. topodomain_w_riverbed.tt3 
-    * A large topography file that includes both riverbed and landslide slip surface 
-    * Landslide volume of this example is 2.1x10^6 m^3
+1. mtbaker_dtm_10m_adj_dams.tt3: 10 m file with some dam adjustmets.
 
-2.  eta_init_landslide_less1meter.tt3
-    * DEM of the landslide upper surface, lowered from Xu's surface for edges.
-    * Landslide body is defined as (2) minus (1)
+2. demn49w123_13as_subset.tt3: 8 m DEM for western reach to the coast.
 
-3. m0_init_landslide_0.62.tt3
-    * DEM of the landslide body for m0 = 0.62.
+3. bakerlake220p8_10mbuffer.tt3: Baker Lake surface 220.8 m.
 
-4.  m0_init_river_200cm_clipped.tt2
-    * DEM of river for m0 = 0.
+4. m0_bakerlake_10mbuffer.tt3: m0 = 0 for Baker Lake.
 
-* Place required topography softlinks locally:
-```
-python setinit.py
-```
-* Modify `setinit.py` based on the location of DEMs on your path
-or you can modify `setrun.py` to point directly to DEMs. 
+5. lakeshannon126p55_10mbuffer_edit.tt3: Lake Shannon surface 126.55 m.
 
-Note: this setinit.py creates some modified DEMs for the river and landslide surface
+* sources:
+
+1. Finn source: finnfig9_de1_topo_with_slip_surface.tt3
+
+This source leads to inundation of Baker Lake.
+
+2. Demming source: deming_n70_topo_with_slip_surface.tt3
+
+# Simulations:
+
+1. Baker_finn_src_wlakes/ -- Finn source with lakes and lake inundation. Flow travels eastward from source.
+
+2. Baker_demming_src_wlakes/ -- Demming source with lakes. Limited lake inundation. Flow travels westward into Nooksack river basin toward Puget Sound.  Simulation time: 2 hours.
 
 # Running/producing output
 
@@ -60,7 +58,7 @@ nohup nice make .output > run.log &
 * Execute matlab in inside the `_output` directory:
 ```
 matlab> pwd
-/path/goldbasin_example/_output
+/path_to_mt_baker_simulation/_output
 ```
 * Add the m-files in the parent directory of `_output`:
 ```
@@ -83,7 +81,7 @@ enter `?` for explanation. Note, if you enter `k`, matlab enters a debug mode an
 % overhead/map view with labeling
 mapview_label_gca;
 
-% oblique (3D) perspective (uncomment the following):
+% oblique (3D) perspectives (example):
 %obliqueview_gca;
 
 ```
