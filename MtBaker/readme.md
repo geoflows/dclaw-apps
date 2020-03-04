@@ -42,6 +42,8 @@ This source leads to inundation of Baker Lake.
 
 2. Baker_demming_src_wlakes/ -- Demming source with lakes. Limited lake inundation. Flow travels westward into Nooksack river basin toward Puget Sound.  Simulation time: 2 hours.
 
+3. 2. Baker_demming_src_wolakes_longrun/ -- Demming source without lakes.  Flow travels westward into Nooksack river basin toward Puget Sound.  Simulation time: 8 hours.
+
 # Running/producing output
 
 From your application directory:
