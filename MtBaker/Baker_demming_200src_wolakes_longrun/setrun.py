@@ -359,8 +359,10 @@ def setgeo(rundata):
     minlevel = 3
     maxlevel = 3
     eta0n = 8
-    topopath = os.path.join(topo,'Baker','dems_from_charlie','deming_n70_ascii')
-    initfile = os.path.join(topopath,'deming_n70_src_topo.tt3')
+    #topopath = os.path.join(topo,'Baker','dems_from_charlie','deming_n70_ascii')
+    #initfile = os.path.join(topopath,'deming_n70_src_topo.tt3')
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','BDemGlacn80p5_ascii')
+    initfile = os.path.join(topopath,'bdemglacn80p5_src_topo.tt3')
     geodata.qinitfiles.append([topotype,eta0n,minlevel,maxlevel,initfile])
 
     topotype = 2
