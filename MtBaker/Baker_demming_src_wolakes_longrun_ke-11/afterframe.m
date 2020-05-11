@@ -57,7 +57,7 @@ set(hcbar,'FontSize',18);
 %axis off;
 %to call makeframejpg which makes a jpeg of the plot uncomment next line
 %plotgaugelocations
-makeframepng
+%makeframepng
 
 
 
