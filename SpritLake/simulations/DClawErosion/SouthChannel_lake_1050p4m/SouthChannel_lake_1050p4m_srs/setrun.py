@@ -337,7 +337,8 @@ def setgeo(rundata):
     topofile1=os.path.join(topopath,'dtm_spiritlakedomain_10m','dtm_spiritlakedomain_10m.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile1])
 
-    topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    #topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    topofile2=os.path.join(topopath,'SpiritLake_south_channel','dtm_cps_channeleastarm','dtm_cps_channeleastarm.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile2])
    
 
