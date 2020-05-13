@@ -151,8 +151,8 @@ def setrun(claw_pkg='digclaw'):
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
         hours = 0.
-        minutes = 30.
-        clawdata.nout = 3*int(minutes)
+        minutes = 120.
+        clawdata.nout = int(minutes)
         clawdata.tfinal = hours*3600. + minutes*60.
 
     elif clawdata.outstyle == 2:
@@ -337,7 +337,8 @@ def setgeo(rundata):
     topofile1=os.path.join(topopath,'dtm_spiritlakedomain_10m','dtm_spiritlakedomain_10m.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile1])
 
-    topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    #topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    topofile2=os.path.join(topopath,'SpiritLake_south_channel','dtm_cps_channeleastarm','dtm_cps_channeleastarm.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile2])
    
 
@@ -358,8 +359,7 @@ def setgeo(rundata):
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-
-    qinitfileeta = os.path.join(topopath,'spiritlake1070','spiritlake1070.tt3')
+    qinitfileeta = os.path.join(topopath,'SpiritLake1050p4','spiritlake1050p4.tt3')
     geodata.qinitfiles.append([3,8,3,3,qinitfileeta])
 
 
@@ -370,9 +370,11 @@ def setgeo(rundata):
     #auxinitftype: file-type, same as topo files, ie: 1, 2 or 3
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
-    filename = 'erode_in_northchannel_cut_uniform_40.tt3'
-    auxfile = os.path.join(topopath,'channel_erosion',filename)
-    lake = gt.topoboundary(auxfile)
+    #filename = 'erode_in_northchannel_cut_uniform_40.tt3'
+    #auxfile = os.path.join(topopath,'channel_erosion',filename)
+
+    filename = 'erodible_seds_abv_srs4.asc.tt3'
+    auxfile = os.path.join(topopath,'erodible_seds_abv_srs4.asc',filename)
     geodata.auxinitfiles.append([3,5,1,4,auxfile])
 
     # == setregions.data values ==
@@ -437,7 +439,7 @@ def setdig(rundata):
     digdata.delta = 0.01
     digdata.bed_normal = 0
     digdata.entrainment = 1
-    digdata.entrainment_rate = 1.0
+    digdata.entrainment_rate = 0.1
     digdata.sigma_0 = 1.e3
     digdata.phys_tol = rundata.geodata.drytolerance
 
