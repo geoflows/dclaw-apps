@@ -151,8 +151,8 @@ def setrun(claw_pkg='digclaw'):
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
         hours = 0.
-        minutes = 30.
-        clawdata.nout = 3*int(minutes)
+        minutes = 120.
+        clawdata.nout = int(minutes)
         clawdata.tfinal = hours*3600. + minutes*60.
 
     elif clawdata.outstyle == 2:
@@ -369,9 +369,11 @@ def setgeo(rundata):
     #auxinitftype: file-type, same as topo files, ie: 1, 2 or 3
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
-    filename = 'erode_in_northchannel_cut_uniform_40.tt3'
-    auxfile = os.path.join(topopath,'channel_erosion',filename)
-    lake = gt.topoboundary(auxfile)
+    #filename = 'erode_in_northchannel_cut_uniform_40.tt3'
+    #auxfile = os.path.join(topopath,'channel_erosion',filename)
+
+    filename = 'erodible_seds_abv_srs4.asc.tt3'
+    auxfile = os.path.join(topopath,'erodible_seds_abv_srs4.asc',filename)
     geodata.auxinitfiles.append([3,5,1,4,auxfile])
 
     # == setregions.data values ==
@@ -436,7 +438,7 @@ def setdig(rundata):
     digdata.delta = 0.01
     digdata.bed_normal = 0
     digdata.entrainment = 1
-    digdata.entrainment_rate = 1.0
+    digdata.entrainment_rate = 0.1
     digdata.sigma_0 = 1.e3
     digdata.phys_tol = rundata.geodata.drytolerance
 
