@@ -81,10 +81,10 @@ def setrun(claw_pkg='digclaw'):
     # ---------------
 
     # Number of equations in the system:
-    clawdata.meqn = 5
+    clawdata.meqn = 7
 
     # Number of auxiliary variables in the aux array (initialized in setaux)
-    clawdata.maux = 9
+    clawdata.maux = 10
 
     # Index of aux array corresponding to capacity function, if there is one:
     clawdata.mcapa = 0
@@ -175,11 +175,11 @@ def setrun(claw_pkg='digclaw'):
     clawdata.order_trans = 0
 
     # Number of waves in the Riemann solution:
-    clawdata.mwaves = 3
+    clawdata.mwaves = 5
 
     # List of limiters to use for each wave family:
     # Required:  len(mthlim) == mwaves
-    clawdata.mthlim = [4,4,4]
+    clawdata.mthlim = [4,4,4,4,4,4]
 
     # Source terms splitting:
     #   src_split == 0  => no source term (src routine never called)
@@ -388,18 +388,20 @@ def setdig(rundata):
     digdata.m0 = 0.62
     digdata.m_crit = 0.64
     permeability = 1.0e-8
-    digdata.kappita = permeability*np.exp((digdata.m0-0.60)/(0.04))
+    digdata.kappita = permeability
     digdata.alpha_c = 0.03
     digdata.delta = 0.01
     digdata.bed_normal = 0
     digdata.phys_tol = rundata.geodata.drytolerance
+    digdata.entrainment = 0
+    digdata.entrainment_rate = 0.0
+    digdata.sigma_0 = 1.e3
 
-    digdata.init_ptype = 2
+    digdata.init_ptype = 0
     digdata.init_pmax_ratio = 1.00e0
-    digdata.init_ptf = 10.0
-    digdata.init_ptf2= 11.0
+    digdata.init_ptf = 0.0
+    digdata.init_ptf2= 0.0
 
-    #-1 =0, 0 = hydro, 1 = failure, 2= p(t)
     #to reduce to shallow water equations, uncomment the following
     #digdata.c1= 0.0
     #digdata.phi_int = 0.0
