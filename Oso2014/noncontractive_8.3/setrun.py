@@ -228,7 +228,7 @@ def setrun(claw_pkg='digclaw'):
     # This must be a list of length maux, each element of which is one of:
     #   'center',  'capacity', 'xleft', or 'yleft'  (see documentation).
 
-    clawdata.auxtype = ['center','center','yleft','center','center','xleft','yleft','xleft','yleft']
+    clawdata.auxtype = ['center','center','yleft','center','center','xleft','yleft','xleft','yleft','center']
 
 
     clawdata.tol = -1.0     # negative ==> don't use Richardson estimator
