@@ -51,7 +51,7 @@ CLAW_LIBSOURCES = \
   $(DIGLIB)/rpn2ez_geo.f \
   $(DIGLIB)/riemannsolvers_geo.f \
   $(DIGLIB)/rpt2_geo.f \
-  $(DIGLIB)/src2_geo.f90 \
+  ./src2_geo.f90 \
   $(DIGLIB)/setprob_geo.f \
   $(DIGLIB)/b4step2_geo.f \
   $(GEOLIB)/src1d_geo.f \
