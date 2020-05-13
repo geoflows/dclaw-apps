@@ -85,9 +85,11 @@ def setrun(claw_pkg='digclaw'):
     # DEM limits
     import os
     import geotools.topotools as gt
+    topopath=os.path.join(os.environ['TOPO'],'SpiritLake','dtm_spiritlakedomain_10m')
+    bfile=os.path.join(topopath,'dtm_spiritlakedomain_10m.tt3')
 
-    topopath=os.path.join(os.environ['TOPO'],'SpiritLake')
-    bfile=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    #topopath=os.path.join(os.environ['TOPO'],'SpiritLake')
+    #bfile=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
     
 
     a=gt.topoboundary(bfile)

@@ -96,7 +96,7 @@ def setrun(claw_pkg='digclaw'):
     yu = a[3] # 1.58e6 + 10000. #a[3]
 
     header = gt.topoheaderread(bfile)
-    cell = header['cellsize']
+    cell = 10.#header['cellsize']
     coarsen = 1
     cell = cell*coarsen
 
