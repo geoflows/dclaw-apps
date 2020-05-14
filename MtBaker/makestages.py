@@ -35,17 +35,23 @@ for ig in Ngs:
 	if os.path.isfile(fname):
 		M = np.loadtxt(fname)
 	else:
-		#this is a bit klugey and should be improved in the future
-		#first row is nonsense at t = -1
-		q0 = np.array([-1,0,0,0,0,0,0,0,0])
-		M = q0
+		#create file and add first row for t=0.
+		fqname = os.path.join(fortoutputdir,'fort.q0000')
+		ftname = os.path.join(fortoutputdir,'fort.t0000')
+		ftheader = cf.forttheaderread(ftname)
+		t = ftheader['time']
+		solutionlist = cf.fort2list(fqname,ftname)
+		xig = x[ig]
+		qig=cf.pointfromfort(xig,solutionlist)
+		tqig = np.hstack((t,qig))
+		M = tqig
 
 	Mlist.append(M)
 	nrows = len(M)
 
 # frame numbers (fort.qXXX0 - fort.qXXXN) f1 - f2.
 #Note: f1 based on the size of M from above. To restrict range of fort files read, modify f1 
-f1 = nrows-1 #note: begin at number of rows due to 0 index for fort.q0000
+f1 = nrows #note: begin at number of rows due to 0 index for fort.q0000
 f2 = 360 #choose final frame (could count #fort. files instead)
 frames = range(f1,f2+1) #which frames
 frameN = range(len(frames)) #frame indices
