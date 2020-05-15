@@ -53,7 +53,7 @@ CLAW_LIBSOURCES = \
   $(DIGLIB)/src2_geo.f90 \
   $(DIGLIB)/setprob_geo.f \
   $(DIGLIB)/b4step2_geo.f \
-  $(GEOLIB)/conck.f \
+  $(DIGLIB)/conck.f \
   $(GEOLIB)/src1d_geo.f \
   $(GEOLIB)/flag2refine_geo.f  \
   $(GEOLIB)/allowflag_geo.f  \
