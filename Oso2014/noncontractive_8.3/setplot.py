@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 #plt.rc('font', family='serif')
 
 
-import local_dplot
+import dclaw.dplot as dd
+local_dplot = dd
 
 ft2m = 0.3048
 
