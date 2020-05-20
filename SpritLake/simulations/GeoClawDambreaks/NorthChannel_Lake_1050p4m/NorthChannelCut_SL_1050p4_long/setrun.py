@@ -59,7 +59,7 @@ def setrun(claw_pkg='geoclaw'):
     # Lower and upper edge of computational domain:
     # DEM limits
     import os
-    import geotools.topotools as gt
+    import geoclaw.topotools as gt
     
     topopath=os.path.join(os.environ['TOPO'],'SpiritLake','dtm_spiritlakedomain_10m')
     bfile=os.path.join(topopath,'dtm_spiritlakedomain_10m.tt3')
