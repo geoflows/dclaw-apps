@@ -10,7 +10,8 @@
 set(gca,'FontSize',16);
 
 %sourceview_radial_gca;
-mapview_domain_label_gca;
+%mapview_domain_label_gca;
+mapview_channelcut_label_channelzoom_gca;
 %mapview_channelcut_label_gca;
 camlight left
 lighting gouraud

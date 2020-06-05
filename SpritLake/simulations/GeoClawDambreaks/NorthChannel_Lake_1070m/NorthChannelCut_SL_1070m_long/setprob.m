@@ -61,9 +61,9 @@ z_flumedepth = [.5 DarkBlue;
 z_velocity = [ 0 White;
                 10.0 Red];
 
-z_velocity2 = [ -1 Blue;
+z_velocity2 = [ -100 Blue;
                 0 White;
-                1. Red];
+                100. Red];
 
 z_depth = [0. White;
            10.0 LightBlue;
@@ -124,6 +124,13 @@ nc = length(tse)-2;
 Zcm = [White;zcm(end-nc:end,:)];
 z_depth = [tse',Zcm];
 
+zcm = hot(14);
+%tse = [0.1,.25,1.,2,10,50,100,500];
+tse = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0.1,500];
+nc = length(tse)-2;
+Zcm = [White;zcm(end-nc:end,:)];
+z_hu = [tse',Zcm];
+
            zLandColorsMalpasset = [   0  DarkGreen;
                            200  Green;
                            400  LightGreen;
@@ -144,7 +151,7 @@ elseif mq == 1
 elseif mq==4
     flow_colormap = z_eta;
 elseif mq==2
-    flow_colormap = z_velocity2;
+    flow_colormap = z_hu;
 else
     flow_colormap = z_eta;
 end
