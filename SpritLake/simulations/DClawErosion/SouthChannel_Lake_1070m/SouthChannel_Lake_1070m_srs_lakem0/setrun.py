@@ -150,10 +150,11 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        hours = 0.
-        minutes = 120.
-        clawdata.nout = int(minutes)
-        clawdata.tfinal = hours*3600. + minutes*60.
+        hours = 12.
+        minutes = 0.
+        seconds = hours*3600. + minutes*60.
+        clawdata.nout = int(seconds/(60.*5.))
+        clawdata.tfinal = seconds
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -435,7 +436,7 @@ def setdig(rundata):
     digdata.mu = 0.005
     digdata.m0 = 0.62
     digdata.m_crit = 0.64
-    permeability = 1.0e-8
+    permeability = 1.0e-11
     digdata.kappita = permeability #*np.exp((digdata.m0-0.60)/(0.04))
     digdata.alpha_c = 0.03
     digdata.alpha_seg = 0.*0.03
