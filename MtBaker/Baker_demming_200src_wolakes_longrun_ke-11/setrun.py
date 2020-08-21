@@ -62,59 +62,36 @@ def setrun(claw_pkg='digclaw'):
     clawdata.ndim = ndim
 
     # Lower and upper edge of computational domain:
-
-    #-------------  extent of src topo is-----------------
-    # xll = 597,416.79
-    # xuppper = 601,039.64
-    # yll = 4,883,315.98
-    # yupper = 4,886,338.99
-    #------------------------------------------------------
-    #--------------  extent of 30 m topo - ----------------
-    # xll = 593,144.19
-    # xupper = 625,815.23
-    # yll = 4,878,173.55
-    # yupper = 4,913,185.83
-    #------------------------------------------------------
-
-    #--------------  extent of 1 m lidar topo - ----------------
-    # xll = 596,227.64
-    # xupper = 634,446.82
-    # yll = 4,881,256.68
-    # yupper = 4,925,559.36
-    #------------------------------------------------------
     # DEM limits
     import os
     import dclaw.topotools as gt
+    topo=os.environ['TOPO']
+    
+    xll = 5.1e5 
+    yll = 5.36e6 
+    xu = 6.1e5
+    yu = 5.427e6
 
-    topopath=os.path.join(os.environ['TOPO'],'SpiritLake','dtm_spiritlakedomain_10m')
-    bfile=os.path.join(topopath,'dtm_spiritlakedomain_10m.tt3')
-
-    a=gt.topoboundary(bfile)
-    xll = a[0] #-10000.
-    yll = a[2] # +10000.
-    xu = a[1] #-5000.
-    yu = a[3] # 1.58e6 + 10000. #a[3]
-
-    header = gt.topoheaderread(bfile)
-    cell = 10.#header['cellsize']
+    cell = 8. #header['cellsize']
     coarsen = 1
     cell = cell*coarsen
-
-    rc = 1 #factor of coarsening from DEM resolution
-    r1 = 8
-    r2 = 8/rc
     
+    rc = 1 #factor of coarsening from DEM resolution
 
-    clawdata.xlower =  xll + 1.0*cell*r1*r2
-    clawdata.xupper =  xu  - 1.0*cell*r1*r2
+    r1 = 16 #=> determines number of coarse cells only
+    r2 = 8 #=>level 2 = cell*r3*r2 meters
+    r3 = 1 #=>level 3 = cell*r3 meters, level 4 = cell meters
+    totalrefinement = cell*r1*r2*r3*rc
+    
+    clawdata.xlower =  xll + 1.0*totalrefinement
+    clawdata.xupper =  xu  - 1.0*totalrefinement
 
-    clawdata.ylower =  yll + 1.0*cell*r1*r2
-    clawdata.yupper =  yu  - 1.0*cell*r1*r2
+    clawdata.ylower =  yll + 1.0*totalrefinement
+    clawdata.yupper =  yu  - 1.0*totalrefinement
 
     # Number of grid cells:
-    clawdata.mx = int((clawdata.xupper-clawdata.xlower)/(cell*r1*r2*rc))
-    clawdata.my = int((clawdata.yupper-clawdata.ylower)/(cell*r1*r2*rc))
-
+    clawdata.mx = int((clawdata.xupper-clawdata.xlower)/(totalrefinement))
+    clawdata.my = int((clawdata.yupper-clawdata.ylower)/(totalrefinement))
 
     # ---------------
     # Size of system:
@@ -148,14 +125,13 @@ def setrun(claw_pkg='digclaw'):
 
     clawdata.outstyle = 1
 
+    hrs = 12.
+
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        hours = 24.
-        minutes = 0.
-        final_seconds  = hours*3600. + minutes*60.
-        clawdata.tfinal = final_seconds
-        clawdata.nout = 144
-       
+        tf = 3600.*hrs
+        clawdata.nout = int(tf/60.)
+        clawdata.tfinal = tf
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -178,7 +154,7 @@ def setrun(claw_pkg='digclaw'):
     # The current t, dt, and cfl will be printed every time step
     # at AMR levels <= verbosity.  Set verbosity = 0 for no printing.
     #   (E.g. verbosity == 2 means print only on levels 1 and 2.)
-    clawdata.verbosity = 1
+    clawdata.verbosity = 4
 
 
 
@@ -263,9 +239,9 @@ def setrun(claw_pkg='digclaw'):
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [r1,r2]
-    clawdata.inraty = [r1,r2]
-    clawdata.inratt = [r1,r2]
+    clawdata.inratx = [r1,r2,r3]
+    clawdata.inraty = [r1,r2,r3]
+    clawdata.inratt = [r1,r2,r3]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
@@ -284,7 +260,7 @@ def setrun(claw_pkg='digclaw'):
     clawdata.cutoff = 0.7   # efficiency cutoff for grid generator
     clawdata.checkpt_iousr = 200
     clawdata.restart = False
-    clawdata.restart_file = 'fort.chk0245'
+    clawdata.restart_file = 'fort.chk0693'
     # More AMR parameters can be set -- see the defaults in pyclaw/data.py
 
     return rundata
@@ -316,33 +292,50 @@ def setgeo(rundata):
     geodata.Rearth = Rearth
 
     # == settsunami.data values ==
-    geodata.sealevel = -10000.0
+    geodata.sealevel = -1000.00
     geodata.drytolerance = 1.e-3
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
     geodata.ifriction = 1
-    geodata.coeffmanning = 0.033
+    geodata.coeffmanning = 0.060
     geodata.frictiondepth = 2000.0
 
     # == settopo.data values ==
-
-    
+    # set a path variable for the base topo directory for portability
     import os
-    import dclaw.topotools as gt
-
+    topo=os.environ['TOPO']
     geodata.topofiles = []
+    
+    # Topography DEMs
 
-    topopath=os.path.join(os.environ['TOPO'],'SpiritLake')
+    topotype = 3
+    minlevel = 1
+    maxlevel = 3
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','mtbaker_dtm_10m_adj_dams')
+    infile = os.path.join(topopath,'mtbaker_dtm_10m_adj_dams.tt3')
+    geodata.topofiles.append([topotype,minlevel,maxlevel, -1.0, 1.e10, infile])
+
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','grdn49w123_13_UTM_H_8ish_m_DEM')
+    infile = os.path.join(topopath,'demn49w123_13as_subset.tt3')
+    geodata.topofiles.append([topotype,minlevel,maxlevel, -1.0, 1.e10, infile])
+
+    #topopath = os.path.join(topo,'Baker','dems_from_charlie','mtbaker_dtm2_5m.asc')
+    #infile = os.path.join(topopath,'mtbaker_dtm2_5m.tt3')
+    #geodata.topofiles.append([3, 1, 4, -1.0, 1.e10, infile])
+
+    # Topography and basal slip surface
+    topotype = 3
+    minlevel = 1
+    maxlevel = 4
+    #topopath = os.path.join(topo,'Baker','dems_from_charlie','deming_n70_ascii')
+    #infile = os.path.join(topopath,'deming_n70_topo_with_slip_surface.tt3')
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','BDemGlacn80p5_ascii')
+    infile = os.path.join(topopath,'bdemglacn80p5_topo_with_slip_surface.tt3')
+    geodata.topofiles.append([topotype,minlevel,maxlevel, -1.0, 1.e10, infile])
 
 
-    topofile1=os.path.join(topopath,'dtm_spiritlakedomain_10m','dtm_spiritlakedomain_10m.tt3')
-    geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile1])
-
-    topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
-    geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile2])
-   
-
+    # == setdtopo.data values ==
     # == setdtopo.data values ==
     geodata.dtopofiles = []
     # for moving topography, append lines of the form:
@@ -359,13 +352,51 @@ def setgeo(rundata):
     #The following values are allowed for iqinit:
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
+    #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
 
+    # Deming landslide source
+    topotype = 3
+    minlevel = 3
+    maxlevel = 3
+    eta0n = 8
+    #topopath = os.path.join(topo,'Baker','dems_from_charlie','deming_n70_ascii')
+    #initfile = os.path.join(topopath,'deming_n70_src_topo.tt3')
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','BDemGlacn80p5_ascii')
+    initfile = os.path.join(topopath,'bdemglacn80p5_src_topo.tt3')
+    geodata.qinitfiles.append([topotype,eta0n,minlevel,maxlevel,initfile])
 
-    qinitfileeta = os.path.join(topopath,'spiritlake1070','spiritlake1070.tt3')
-    geodata.qinitfiles.append([3,8,3,3,qinitfileeta])
+    topotype = 2
+    m0n = 4
+    initfile = os.path.join(topopath,'m0_src.tt2')
+    geodata.qinitfiles.append([topotype,m0n,minlevel,maxlevel,initfile])
 
-    qinitfilem0 = os.path.join(topopath,'spiritlake1070','spiritlake1070_m0.tt3')
-    geodata.qinitfiles.append([3,4,3,3,qinitfilem0])
+    
+    # baker lake (not present in this simulation)
+    topotype = 3
+    minlevel = 3
+    maxlevel = 3
+    eta0n = 8
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','BakerLake220p8_10mBuffer')
+    initfile = os.path.join(topopath,'bakerlake220p8_10mbuffer.tt3')
+    #geodata.qinitfiles.append([topotype,eta0n,minlevel,maxlevel,initfile])
+    topotype = 2
+    m0n = 4
+    initfile = os.path.join(topopath,'m0_bakerlake_10mbuffer.tt2')
+    #geodata.qinitfiles.append([topotype,m0n,minlevel,maxlevel,initfile])
+    
+    # lake shannon (not present in this simulation)
+    topotype = 3
+    minlevel = 3
+    maxlevel = 3
+    eta0n = 8
+    topopath = os.path.join(topo,'Baker','dems_from_charlie','LakeShannon126p55_10mBuffer_edit.asc')
+    initfile = os.path.join(topopath,'lakeshannon126p55_10mbuffer_edit.tt3')
+    #geodata.qinitfiles.append([topotype,eta0n,minlevel,maxlevel,initfile])
+    topotype = 2
+    m0n = 4
+    initfile = os.path.join(topopath,'m0_lakeshannon126p55_10mbuffer_edit.tt2')
+    #geodata.qinitfiles.append([topotype,m0n,minlevel,maxlevel,initfile])
+    
 
     geodata.auxinitfiles = []
     # for auxinit perturbations append lines of the form
@@ -375,25 +406,27 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #filename = 'erode_in_northchannel_cut_uniform_40.tt3'
-    #auxfile = os.path.join(topopath,'channel_erosion',filename)
-    #lake = gt.topoboundary(auxfile)
-
-    filename = 'erodible_seds_abv_srs4.asc.tt3'
-    auxfile = os.path.join(topopath,'erodible_seds_abv_srs4.asc',filename)
-    #lake = gt.topoboundary(auxfile)
-    geodata.auxinitfiles.append([3,5,1,4,auxfile])
-
     # == setregions.data values ==
     geodata.regions = []
     # to specify regions of refinement append lines of the form
     #  [minlevel,maxlevel,t1,t2,x1,x2,y1,y2]
+    x1=5.52e5
+    x2 = 5.535e5
+    y1=5.183e6
+    y2 = 5.186e6
+    #geodata.regions.append([4,4,-10.0,1.e10,x1,x2,y1,y2])
+    #geodata.regions.append([1,3,-10.0,200.0,ss[0],ss[1],ss[2],ss[3]])
+    #geodata.regions.append([1,4,2000,1e10,6.145e5,6.194e5,4.9e6-1.e3,4.907e6])
 
     
+    
+    #geodata.regions.append([4,4,20.0,10.e3,xlow,xhi+1000.,ylow-5000.,yhi+200.])
+    #geodata.regions.append([4,4,-10.0,10.e3,0.9580e6,0.9583e6,1.8342e6,1.8352e6])
+
     # == setgauges.data values ==
     geodata.gauges = []
     # for gauges append lines of the form  [gaugeno, x, y, t0, tf]
-
+    #geodata.gauges.append([5000, 614324.222138,4898742.796443, 00.e3,60e3])
 
     # == setfixedgrids.data values ==
     geodata.fixedgrids = []
@@ -430,7 +463,7 @@ def setdig(rundata):
 
     #set non-default values if needed
     digdata.c1 = 1.0
-    digdata.rho_f = 1000.0
+    digdata.rho_f = 1100.0
     digdata.rho_s = 2700.0
     digdata.phi_bed = 38.0
     digdata.phi_int = 38.0
@@ -440,13 +473,13 @@ def setdig(rundata):
     digdata.m_crit = 0.64
     permeability = 1.0e-11
     digdata.kappita = permeability #*np.exp((digdata.m0-0.60)/(0.04))
-    digdata.alpha_c = 0.03
-    digdata.alpha_seg = 0.*0.03
+    digdata.alpha_c = 0.05
+    digdata.alpha_seg = 0.
     digdata.phi_seg_coeff = 0.0
     digdata.delta = 0.01
     digdata.bed_normal = 0
-    digdata.entrainment = 1
-    digdata.entrainment_rate = 0.1
+    digdata.entrainment = 0
+    digdata.entrainment_rate = 0.0
     digdata.sigma_0 = 1.e3
     digdata.phys_tol = rundata.geodata.drytolerance
 

@@ -152,10 +152,9 @@ def setrun(claw_pkg='digclaw'):
         # Output nout frames at equally spaced times up to tfinal:
         hours = 24.
         minutes = 0.
-        final_seconds  = hours*3600. + minutes*60.
-        clawdata.tfinal = final_seconds
-        clawdata.nout = 144
-       
+        seconds = hours*3600. + minutes*60.
+        clawdata.nout = int(seconds/(60.*5.))
+        clawdata.tfinal = seconds
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -339,7 +338,8 @@ def setgeo(rundata):
     topofile1=os.path.join(topopath,'dtm_spiritlakedomain_10m','dtm_spiritlakedomain_10m.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile1])
 
-    topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    #topofile2=os.path.join(topopath,'dtm_with_north_channel_cut','dtm_with_north_channel_cut.tt3')
+    topofile2=os.path.join(topopath,'SpiritLake_south_channel','dtm_cps_channeleastarm','dtm_cps_channeleastarm.tt3')
     geodata.topofiles.append([3, 1, 3, 0.0, 1.e10, topofile2])
    
 
@@ -360,12 +360,13 @@ def setgeo(rundata):
         #n=1,mq perturbation of q(i,j,n)
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-
+    #qinitfileeta = os.path.join(topopath,'SpiritLake1050p4','spiritlake1050p4.tt3')
     qinitfileeta = os.path.join(topopath,'spiritlake1070','spiritlake1070.tt3')
     geodata.qinitfiles.append([3,8,3,3,qinitfileeta])
 
     qinitfilem0 = os.path.join(topopath,'spiritlake1070','spiritlake1070_m0.tt3')
     geodata.qinitfiles.append([3,4,3,3,qinitfilem0])
+
 
     geodata.auxinitfiles = []
     # for auxinit perturbations append lines of the form
@@ -374,14 +375,11 @@ def setgeo(rundata):
     #auxinitftype: file-type, same as topo files, ie: 1, 2 or 3
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
-
     #filename = 'erode_in_northchannel_cut_uniform_40.tt3'
     #auxfile = os.path.join(topopath,'channel_erosion',filename)
-    #lake = gt.topoboundary(auxfile)
 
     filename = 'erodible_seds_abv_srs4.asc.tt3'
     auxfile = os.path.join(topopath,'erodible_seds_abv_srs4.asc',filename)
-    #lake = gt.topoboundary(auxfile)
     geodata.auxinitfiles.append([3,5,1,4,auxfile])
 
     # == setregions.data values ==

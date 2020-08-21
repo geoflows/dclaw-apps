@@ -155,7 +155,6 @@ def setrun(claw_pkg='digclaw'):
         final_seconds  = hours*3600. + minutes*60.
         clawdata.tfinal = final_seconds
         clawdata.nout = 144
-       
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -364,8 +363,6 @@ def setgeo(rundata):
     qinitfileeta = os.path.join(topopath,'spiritlake1070','spiritlake1070.tt3')
     geodata.qinitfiles.append([3,8,3,3,qinitfileeta])
 
-    qinitfilem0 = os.path.join(topopath,'spiritlake1070','spiritlake1070_m0.tt3')
-    geodata.qinitfiles.append([3,4,3,3,qinitfilem0])
 
     geodata.auxinitfiles = []
     # for auxinit perturbations append lines of the form
@@ -436,9 +433,9 @@ def setdig(rundata):
     digdata.phi_int = 38.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
-    digdata.m0 = 0.62
-    digdata.m_crit = 0.64
-    permeability = 1.0e-11
+    digdata.m0 = 0. #0.62
+    digdata.m_crit = 0.65
+    permeability = 1.0e-8
     digdata.kappita = permeability #*np.exp((digdata.m0-0.60)/(0.04))
     digdata.alpha_c = 0.03
     digdata.alpha_seg = 0.*0.03
