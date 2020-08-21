@@ -438,7 +438,7 @@ def setdig(rundata):
     digdata.mu = 0.005
     digdata.m0 = 0.62
     digdata.m_crit = 0.64
-    permeability = 1.0e-8
+    permeability = 1.0e-11
     digdata.kappita = permeability #*np.exp((digdata.m0-0.60)/(0.04))
     digdata.alpha_c = 0.03
     digdata.alpha_seg = 0.*0.03
