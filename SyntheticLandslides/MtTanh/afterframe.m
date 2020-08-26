@@ -8,9 +8,8 @@ set(gca,'FontSize',16);
 runoutview_gca;
 
 %oblique (3D) perspective (uncomment the following):
-%midview_gca
-%baseview_bn_gca
-%hopperview_bn_gca;
+%sourceview_gca
+
 
 camlight left
 lighting gouraud
@@ -36,4 +35,4 @@ set(hcbar,'FontSize',18);
 
 
 % to make png of each frame uncomment the following:
-makeframepng
+%makeframepng

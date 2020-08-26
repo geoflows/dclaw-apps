@@ -63,16 +63,16 @@ def setrun(claw_pkg='digclaw'):
 
     # Lower and upper edge of computational domain:
 
-    clawdata.xlower = -10.0
-    clawdata.xupper =  140.0
+    clawdata.xlower =  0.0
+    clawdata.xupper =  8.0e3
 
-    clawdata.ylower =  -6.0
-    clawdata.yupper =   8.0
+    clawdata.ylower =  -2.0e3
+    clawdata.yupper =   2.0e3
 
 
     # Number of grid cells:
-    clawdata.mx = 200
-    clawdata.my = 28
+    clawdata.mx = 80
+    clawdata.my = 40
 
 
     # ---------------
@@ -109,8 +109,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 20
-        clawdata.tfinal = 20.0
+        clawdata.nout = 60
+        clawdata.tfinal = 600.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -213,29 +213,28 @@ def setrun(claw_pkg='digclaw'):
 
 
     # max number of refinement levels:
-    mxnest = 2
+    mxnest = 2 #2 => 10 m resolution, 3=> 1 m resolution
 
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [5,5,2,4]
-    clawdata.inraty = [5,5,2,4]
-    clawdata.inratt = [5,5,2,4]
+    clawdata.inratx = [10,10]
+    clawdata.inraty = [10,10]
+    clawdata.inratt = [10,10]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
     # This must be a list of length maux, each element of which is one of:
     #   'center',  'capacity', 'xleft', or 'yleft'  (see documentation).
-
-    clawdata.auxtype = ['center','center','yleft','center','center','center','center','center','center','center']
+    clawdata.auxtype = ['center','center','yleft','center','center','xleft','yleft','xleft','yleft','center']
 
 
     clawdata.tol = -1.0     # negative ==> don't use Richardson estimator
     clawdata.tolsp = 0.5    # used in default flag2refine subroutine
                             # (Not used in geoclaw!)
 
-    clawdata.kcheck = 3     # how often to regrid (every kcheck steps)
-    clawdata.ibuff  = 3     # width of buffer zone around flagged points
+    clawdata.kcheck = 2     # how often to regrid (every kcheck steps)
+    clawdata.ibuff  = 4     # width of buffer zone around flagged points
     clawdata.cutoff = 0.7   # efficiency cutoff for grid generator
     clawdata.checkpt_iousr = 10000000
     clawdata.restart = False
@@ -285,15 +284,10 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    topofile1=os.path.join(topopath,'ZeroTopo.tt2')
-    topofile2=os.path.join(topopath,'Wall1Topo.tt2')
-    topofile3=os.path.join(topopath,'Wall2Topo.tt2')
-    topofile4=os.path.join(topopath,'ZeroTopoGate.tt2')
+    topofile1=os.path.join(topopath,'src_quadratic_Mt_Tanh_b.tt2')
 
     geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
-    geodata.topofiles.append([2, 2, 3, 0.0, 1.e10, topofile2])
-    geodata.topofiles.append([2, 2, 3, 0.0, 1.e10, topofile3])
-    geodata.topofiles.append([2, 4, 4, 0.0, 5.0, topofile4])
+
 
     # == setdtopo.data values ==
     # == setdtopo.data values ==
@@ -312,7 +306,8 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/FlumeQinit.tt2'])
+    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/Mt_Tanh_log_eta.tt2'])
+    #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
     # == setauxinit.data values ==
@@ -324,7 +319,7 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/FlumeTheta.tt2'])
+    #geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/Phi.tt2'])
 
     # == setregions.data values ==
     geodata.regions = []
@@ -335,11 +330,7 @@ def setgeo(rundata):
     # == setgauges.data values ==
     geodata.gauges = []
     # for gauges append lines of the form  [gaugeno, x, y, t0, tf]
-    geodata.gauges.append([2, 2.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([32, 32.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([66, 66.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([90, 90.0, 1.0, 0.0, 60e3])
-    geodata.gauges.append([80, 80.0, 1.0, 0.0, 60e3])
+    
 
     # == setfixedgrids.data values ==
     geodata.fixedgrids = []
@@ -384,13 +375,13 @@ def setdig(rundata):
     digdata.mu = 0.005
     digdata.m0 = 0.62
     digdata.m_crit = 0.64
-    permeability = 1.0e-8
+    permeability = 1.0e-10
     digdata.kappita = permeability
     digdata.alpha_c = 0.05
     digdata.alpha_seg = 0.
     digdata.phi_seg_coeff = 0.0
     digdata.delta = 0.01
-    digdata.bed_normal = 1
+    digdata.bed_normal = 0
     digdata.entrainment = 0
     digdata.entrainment_rate = 0.0
     digdata.sigma_0 = 1.e3

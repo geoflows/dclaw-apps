@@ -13,10 +13,14 @@ from function_defs import *
 cdir = os.path.abspath(os.environ['PWD'])
 
 #---create local directories for data if they do not exist----------
-topodir = os.path.join(cdir,'topo')
-auxdir = os.path.join(cdir,'aux')
-qinitdir = os.path.join(cdir,'qinit')
+indatadir=os.path.join(cdir,'init_data')
+topodir = os.path.join(cdir,indatadir,'topo')
+auxdir = os.path.join(cdir,indatadir,'aux')
+qinitdir = os.path.join(cdir,indatadir,'qinit')
 
+if not os.path.isdir(indatadir):
+    execstr = 'mkdir '+indatadir
+    os.system(execstr)
 if not os.path.isdir(topodir):
     execstr = 'mkdir '+topodir
     os.system(execstr)
