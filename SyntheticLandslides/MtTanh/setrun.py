@@ -64,15 +64,15 @@ def setrun(claw_pkg='digclaw'):
     # Lower and upper edge of computational domain:
 
     clawdata.xlower =  0.0
-    clawdata.xupper =  8.0e3
+    clawdata.xupper =  20.0e3
 
-    clawdata.ylower =  -2.0e3
-    clawdata.yupper =   2.0e3
+    clawdata.ylower =  -5.0e3
+    clawdata.yupper =   5.0e3
 
 
     # Number of grid cells:
-    clawdata.mx = 80
-    clawdata.my = 40
+    clawdata.mx = 200
+    clawdata.my = 100
 
 
     # ---------------
@@ -109,8 +109,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 60
-        clawdata.tfinal = 600.0
+        clawdata.nout = 100
+        clawdata.tfinal = 200.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.

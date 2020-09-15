@@ -58,9 +58,9 @@ MaxFrames = 1000;            % max number of frames to loop over
 MaxLevels = 6;
 PlotData =  [1 1 1 0 0];   % Data on refinement level k is plotted only if
 			     % k'th component is nonzero
-PlotGrid =  [1 1 1 0];   % Plot grid lines on each level?
+PlotGrid =  [1 0 0 0];   % Plot grid lines on each level?
 
-PlotGridEdges =  [1 1 1 0 0 0];  % Plot edges of patches of each grid at
+PlotGridEdges =  [0 0 0 0];  % Plot edges of patches of each grid at
                                  % this level?
 
 %---------------------------------
