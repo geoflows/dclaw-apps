@@ -1,6 +1,6 @@
 view(2)
-axis([0,2000,-1e3,1e3]);axis equal
+axis([0,5000,-2.5e3,2.5e3,0,5000]);
 tstr = ['t = ',num2str(t,'%0.2f')];
-text(80,500,3000,tstr,'fontsize',36);
+text(500,1800,3000,tstr,'fontsize',16);
 
-set(gca,'Fontsize',26)
+set(gca,'Fontsize',16)

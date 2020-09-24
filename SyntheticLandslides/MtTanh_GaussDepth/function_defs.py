@@ -35,6 +35,32 @@ def mt_tanh_log_eta(X,Y):
 
     return Z
 
+def mt_tanh_log_eta_longx(X,Y):
+    """
+    hyperbolic tangent mountain with log argument (slope in x, y-uniform)
+
+    surface elevation, eta = 0.5*A(1-tanh(log(c*(x-x0))))  for x > x0
+    """
+
+    A = 2.e3 #height of mt.
+    c = 0.5e-3 #propto slope
+    x0 = 0.0 #summit location
+
+    x0ind = np.where(X[0,:]<=x0)[0] #flat top of mt. if desired left of x0
+    x1ind = np.where(X[0,:]>x0)[0]
+    yind =  np.where(Y[:,0]<=1e16)[0] #uniform in y for now
+    
+
+    #pdb.set_trace()
+
+    Z=np.zeros(np.shape(X))
+    Z[np.ix_(yind,x0ind)] = A
+    Z[np.ix_(yind,x1ind)] = 0.5*A*(1.0-np.tanh(np.log(c*(X[np.ix_(yind,x1ind)]-x0))))
+    
+
+    return Z
+
+
 
 
 def mt_tanh_log_eta_r(X,Y):
@@ -86,16 +112,16 @@ def gauss_h(X,Y):
     returns eta
 
     """
-    A  = 50.0
-    cx = 2.5e-5
-    cy = 1.0e-5
+    A  = 100.0
+    cx = 1.0e-5#2.5e-5
+    cy = 0.33*2.5e-5#1.0e-5
     x0 = 500.0
     y0 = 0.0
 
 
     # gaussian
     
-    h= A*np.exp(-(cx*(X-x0)**2 + cy*(Y-y0))) - 2.0
+    h= A*np.exp(-(cx*(X-x0)**2 + cy*(Y-y0)**2)) - 2.0
     h=np.maximum(h,0.0)
 
     dx = abs(X[0,1]-X[0,0])
