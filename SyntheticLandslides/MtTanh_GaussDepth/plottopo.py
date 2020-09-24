@@ -27,23 +27,23 @@ eta = eta_fn(X,Y)
 b = b_fn(X,Y)
 
 #small grid
-dxS = 10.0
+dxS = 2.0
 xlowerS =  0.0 
 xupperS =  2.0e3 
-ylowerS = -2.0e3
-yupperS =  2.0e3
+ylowerS = -1.0e3
+yupperS =  1.0e3
 nxpointsS = int((xupperS-xlowerS)/dxS) + 1
 nypointsS = int((yupperS-ylowerS)/dxS) + 1
 
-#xS = np.linspace(xlowerS,xupperS,nxpointsS)
-#yS = np.linspace(ylowerS,yupperS,nypointsS)
-#[XS,YS] = np.meshgrid(xS,yS)
-XS = X
-YS = Y
-#etaS = eta_fn(XS,YS)
-#bS = b_fn(XS,YS)
-etaS = eta
-bS = b
+xS = np.linspace(xlowerS,xupperS,nxpointsS)
+yS = np.linspace(ylowerS,yupperS,nypointsS)
+[XS,YS] = np.meshgrid(xS,yS)
+#XS = X
+#YS = Y
+etaS = eta_fn(XS,YS)
+bS = b_fn(XS,YS)
+#etaS = eta
+#bS = b
 #import pdb; pdb.set_trace()
 
 #------plot of topo (Mt. Tanh) ------------------------------------------------
@@ -125,7 +125,7 @@ plt.ylabel(r'$y$ (m)')
 #plt.axis('equal')
 #plt.zlabel('z (m)')
 #hc=ax.contour(X,Y,eta,stride=0.1)
-hw=ax.plot_wireframe(XS,YS,etaS,rstride=20,cstride=20)
+hw=ax.plot_wireframe(XS,YS,etaS,rstride=10,cstride=10)
 figname = os.path.join('figures','MtTanh_logX_source.png')
 #plt.tight_layout()
 plt.savefig(figname)

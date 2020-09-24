@@ -36,4 +36,4 @@ set(hcbar,'FontSize',18);
 
 
 % to make png of each frame uncomment the following:
-%makeframepng
+makeframepng
