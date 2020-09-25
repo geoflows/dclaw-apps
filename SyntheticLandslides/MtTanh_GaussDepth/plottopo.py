@@ -20,18 +20,21 @@ x = np.linspace(xlower,xupper,nxpoints)
 y = np.linspace(ylower,yupper,nypoints)
 [X,Y] = np.meshgrid(x,y)
 
+v_fn = mt_tanh_gauss_eta_v
 eta_fn = mt_tanh_gauss_eta
 b_fn = mt_tanh_log_eta
 
 eta = eta_fn(X,Y)
 b = b_fn(X,Y)
+(etav,volume) = v_fn(X,Y)
+volumeM = volume/1.e6
 
 #small grid
 dxS = 2.0
 xlowerS =  0.0 
-xupperS =  2.0e3 
-ylowerS = -1.0e3
-yupperS =  1.0e3
+xupperS =  1.8e3 
+ylowerS = -0.8e3
+yupperS =  0.8e3
 nxpointsS = int((xupperS-xlowerS)/dxS) + 1
 nypointsS = int((yupperS-ylowerS)/dxS) + 1
 
@@ -56,7 +59,8 @@ ax = fig.add_subplot(111, projection='3d')
 h=ax.plot_surface(X,Y,eta,rstride=1,cstride=1,linewidth=0.1,shade=True,cmap='Spectral')
 #plt.axis([0,1000,-500,500])
 plt.axis('equal')
-plt.title('Mt. Tanh logX')
+plt.title("Mt. Tanh logX, Gaussian source. Volume (Mm3): %.2f" % volumeM)
+#plt.title('Mt. Tanh logX')
 plt.xlabel(r'$x$ (m)')
 plt.ylabel(r'$y$ (m)')
 #plt.zlabel('z (m)')
@@ -99,9 +103,10 @@ plt.plot(X[ptsm,:],eta[ptsm,:],'r')
 plt.plot(X[ptsm,:],b[ptsm,:],'b')
 plt.axis('equal')
 plt.axis([0,5000,-10,2010])
-plt.title('Mt. Tanh logX transect')
+plt.title("Mt. Tanh logX transect, Gaussian source. Volume (Mm3): %.2f" % volumeM)
 plt.xlabel(r'$x$ (m)')
 plt.ylabel(r'$z$ (m)')
+plt.legend([r'$\eta$: topography',r'$b$: failure surface'])
 figname = os.path.join('figures','MtTanh_logX_transect.png')
 plt.tight_layout()
 plt.savefig(figname)
@@ -115,17 +120,17 @@ fig = plt.figure(figno,figsize=(16,8))
 ax = Axes3D(fig)
 #ax = fig.add_subplot(111, projection='3d')
 #pdb.set_trace()
-h=ax.plot_surface(XS,YS,bS,rstride=2,cstride=2,linewidth=0.2,shade=True,cmap='Spectral')
+h=ax.plot_surface(XS,YS,bS,rstride=10,cstride=10,linewidth=0.2,shade=True)#,cmap='Spectral')
 #plt.axis([xlowerS,xupperS,ylowerS,yupperS])
 #plt.axis('equal')
-volumeM = 80 #volume/1.e6
-plt.title("Mt. Tanh logX, quadratic source. Volume (Mm3): %.2f" % volumeM)
+volumeM = volume/1.e6
+plt.title("Mt. Tanh logX, Gaussian source. Volume (Mm3): %.2f" % volumeM)
 plt.xlabel(r'$x$ (m)')
 plt.ylabel(r'$y$ (m)')
 #plt.axis('equal')
 #plt.zlabel('z (m)')
 #hc=ax.contour(X,Y,eta,stride=0.1)
-hw=ax.plot_wireframe(XS,YS,etaS,rstride=10,cstride=10)
+hw=ax.plot_wireframe(XS,YS,etaS,rstride=40,cstride=40)
 figname = os.path.join('figures','MtTanh_logX_source.png')
 #plt.tight_layout()
 plt.savefig(figname)
@@ -151,7 +156,7 @@ bs = np.rad2deg(np.arctan(dbdx))
 plt.plot(xd,etas,'r')
 plt.plot(xd,bs,'b')
 #plt.axis('equal')
-plt.axis([0,5000,-50,50])
+plt.axis([0,5000,-60,60])
 plt.title('Mt. Tanh logX slope')
 plt.xlabel(r'$x$ (m)')
 plt.ylabel(r'slope angle (degrees)')
