@@ -109,8 +109,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 100
-        clawdata.tfinal = 200.0
+        clawdata.nout = 60
+        clawdata.tfinal = 120.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -274,7 +274,7 @@ def setgeo(rundata):
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
-    geodata.ifriction = 1
+    geodata.ifriction = 0
     geodata.coeffmanning = 0.025
     geodata.frictiondepth = 10000.0
 
@@ -369,8 +369,8 @@ def setdig(rundata):
     digdata.c1 = 1.0
     digdata.rho_f = 1100.0
     digdata.rho_s = 2700.0
-    digdata.phi_bed = 38.0
-    digdata.phi_int = 38.0
+    digdata.phi_bed = 32.0
+    digdata.phi_int = 32.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
     digdata.m0 = 0.62
@@ -378,7 +378,7 @@ def setdig(rundata):
     permeability = 1.0e-10
     digdata.kappita = permeability
     digdata.alpha_c = 0.05
-    digdata.alpha_seg = 0.
+    digdata.alpha_seg = 0.0
     digdata.phi_seg_coeff = 0.0
     digdata.delta = 0.01
     digdata.bed_normal = 0

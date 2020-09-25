@@ -106,13 +106,35 @@ def mt_tanh_gauss_eta(X,Y):
     
     return eta
 
+def mt_tanh_gauss_eta_v(X,Y):
+    """
+    top surface eta: Mt Tanh + gaussian
+    returns eta
+
+    """
+
+    # top surface
+    b = mt_tanh_log_eta(X,Y)
+
+    # gaussian
+    h = gauss_h(X,Y)
+
+    dx = abs(X[0,1]-X[0,0])
+
+    volume = np.sum(h)*dx*dx
+    print 'source volume (million m^3): ', volume/1.e6
+
+    eta = b + h
+    
+    return (eta,volume)
+
 def gauss_h(X,Y):
     """
     top surface eta: Mt Tanh + gaussian
     returns eta
 
     """
-    A  = 150.0
+    A  = 180.0#150.0
     cx = 0.8e-5
     cy = 1.0e-5
     x0 = 800.0

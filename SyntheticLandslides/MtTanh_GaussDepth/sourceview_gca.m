@@ -1,6 +1,9 @@
 	
 axis off;
 
+tstr = ['t = ',num2str(t,'%0.2f')];
+text(500,1800,2800,tstr,'fontsize',26);
+
 campos= [5.6438e+04 -1.1030e+04 9.8101e+03];
 camtarg = [3.9744e+03 -3.1134 1.0540e+03];
 
