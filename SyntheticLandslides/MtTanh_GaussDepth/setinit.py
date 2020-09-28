@@ -34,7 +34,7 @@ if not os.path.isdir(qinitdir):
 
 
 # initial failure surface b
-outfile= 'Mt_Tanh_log_eta.tt2'
+outfile= 'Mt_Tanh_log_b.tt2'
 outfile = os.path.join(topodir,outfile)
 dx = 1.0 #1 meter DEM
 # grid [~0 , 10 km] X [-2.5 , 2.5 km]
