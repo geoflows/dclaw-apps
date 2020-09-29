@@ -284,9 +284,9 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    #topofile1=os.path.join(topopath,'Mt_Tanh_log_eta.tt2')
+    topofile1=os.path.join(topopath,'ramp_zero.tt2')
 
-    #geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
+    geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
 
 
     # == setdtopo.data values ==
