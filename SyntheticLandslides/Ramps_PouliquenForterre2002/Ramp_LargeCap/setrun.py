@@ -64,14 +64,14 @@ def setrun(claw_pkg='digclaw'):
     # Lower and upper edge of computational domain:
 
     clawdata.xlower =  0.0
-    clawdata.xupper =  4.0
+    clawdata.xupper =  3.0
 
     clawdata.ylower =  -0.5
     clawdata.yupper =   0.5
 
 
     # Number of grid cells:
-    clawdata.mx = 400 #1cm cells
+    clawdata.mx = 300 #1cm cells
     clawdata.my = 100 #1cm cells
 
 
@@ -218,9 +218,9 @@ def setrun(claw_pkg='digclaw'):
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [10,10]
-    clawdata.inraty = [10,10]
-    clawdata.inratt = [10,10]
+    clawdata.inratx = [5,4]
+    clawdata.inraty = [5,4]
+    clawdata.inratt = [5,4]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
@@ -270,7 +270,7 @@ def setgeo(rundata):
 
     # == settsunami.data values ==
     geodata.sealevel = -1000.0
-    geodata.drytolerance = 1.e-3
+    geodata.drytolerance = 1.e-6
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
