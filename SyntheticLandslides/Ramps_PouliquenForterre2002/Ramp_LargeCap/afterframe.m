@@ -5,11 +5,11 @@
 set(gca,'FontSize',16);
 
 % overhead/map view with labeling
-%runoutview_gca;
+runoutview_full_gca;
 
 %oblique (3D) perspective (uncomment the following):
-sourceview_gca
-axis off
+%sourceview_gca
+%axis off
 
 
 camlight left

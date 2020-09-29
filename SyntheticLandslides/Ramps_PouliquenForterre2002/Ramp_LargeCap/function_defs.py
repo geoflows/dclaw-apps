@@ -35,8 +35,10 @@ def LargeCap_h(X,Y):
     Z=np.zeros(np.shape(X))
     y = Y[np.ix_(yind,xind)]
     x = X[np.ix_(yind,xind)]
-    sqrtarg = np.maximum(R**2 -(y-yc)**2 - (x-xc)**2, 0.0)
-    Z[np.ix_(yind,xind)]  = zc - np.sqrt(sqrtarg)
+    #sqrtarg = np.maximum(R**2 -(y-yc)**2 - (x-xc)**2, 0.0)
+    #Z[np.ix_(yind,xind)]  = zc - np.sqrt(sqrtarg)
+    sqrtarg = np.maximum(R**2 -(Y-yc)**2 - (X-xc)**2, 0.0)
+    Z = zc + np.sqrt(sqrtarg)
     #formula for whole circle gives negative values for outer x
     Z = np.maximum(Z,0.0)
     

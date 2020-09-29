@@ -117,7 +117,7 @@ zDigPressure = [tse',Zcm];
 
 zcm = flipud(hot(8));
 %tse = [0.1,.25,1.,2,10,50,100,500];
-tse = [.01,0.1,1.0,2.0,5.0,10.0,50.0,500];
+tse = [.001,0.01,0.02,0.04,0.06,0.08,0.10,1];
 nc = length(tse)-2;
 Zcm = [White;zcm(end-nc:end,:)];
 z_depth = [tse',Zcm];
