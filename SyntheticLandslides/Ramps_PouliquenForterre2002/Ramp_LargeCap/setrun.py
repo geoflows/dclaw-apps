@@ -64,15 +64,15 @@ def setrun(claw_pkg='digclaw'):
     # Lower and upper edge of computational domain:
 
     clawdata.xlower =  0.0
-    clawdata.xupper =  20.0e3
+    clawdata.xupper =  4.0
 
-    clawdata.ylower =  -5.0e3
-    clawdata.yupper =   5.0e3
+    clawdata.ylower =  -0.5
+    clawdata.yupper =   0.5
 
 
     # Number of grid cells:
-    clawdata.mx = 200
-    clawdata.my = 100
+    clawdata.mx = 400 #1cm cells
+    clawdata.my = 100 #1cm cells
 
 
     # ---------------
@@ -109,8 +109,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 60
-        clawdata.tfinal = 120.0
+        clawdata.nout = 50
+        clawdata.tfinal = 5.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -274,8 +274,8 @@ def setgeo(rundata):
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
-    geodata.ifriction = 0
-    geodata.coeffmanning = 0.025
+    geodata.ifriction = 1
+    geodata.coeffmanning = 0.033
     geodata.frictiondepth = 10000.0
 
     # == settopo.data values ==
@@ -284,9 +284,9 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    topofile1=os.path.join(topopath,'Mt_Tanh_log_eta.tt2')
+    #topofile1=os.path.join(topopath,'Mt_Tanh_log_eta.tt2')
 
-    geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
+    #geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
 
 
     # == setdtopo.data values ==
@@ -306,7 +306,7 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/Mt_Tanh_log_eta_gausshump.tt2'])
+    geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/LargeCap_h.tt2'])
     #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
@@ -367,11 +367,11 @@ def setdig(rundata):
 
     #set non-default values if needed
     digdata.c1 = 1.0
-    digdata.rho_f = 1100.0
+    digdata.rho_f = 1000.0
     digdata.rho_s = 2700.0
     digdata.phi_bed = 32.0
     digdata.phi_int = 32.0
-    digdata.theta_input = 0.0
+    digdata.theta_input = 23.0
     digdata.mu = 0.005
     digdata.m0 = 0.62
     digdata.m_crit = 0.64
@@ -381,7 +381,7 @@ def setdig(rundata):
     digdata.alpha_seg = 0.0
     digdata.phi_seg_coeff = 0.0
     digdata.delta = 0.01
-    digdata.bed_normal = 0
+    digdata.bed_normal = 1
     digdata.entrainment = 0
     digdata.entrainment_rate = 0.0
     digdata.sigma_0 = 1.e3
