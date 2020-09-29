@@ -36,7 +36,7 @@ if not os.path.isdir(qinitdir):
 # initial depth
 outfile= 'LargeCap_h.tt2'
 outfile = os.path.join(qinitdir,outfile)
-dx = 0.001 #1 meter DEM
+dx = 0.001 #1 mm DEM
 # grid
 xlower = -1.0
 xupper =  5.0 
@@ -49,7 +49,7 @@ gt.topo2writer(outfile,LargeCap_h,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 # plane (file for b...just 0).
 outfile= 'ramp_zero.tt2'
 outfile = os.path.join(topodir,outfile)
-dx = 0.001 #1 meter DEM
+dx = 0.001 #1 mm DEM
 # grid
 xlower = -1.0
 xupper =  5.0 
