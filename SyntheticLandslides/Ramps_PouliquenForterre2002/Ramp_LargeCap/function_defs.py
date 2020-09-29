@@ -56,6 +56,19 @@ def zero_plane(X,Y):
     
     return Z
 
+def theta_23(X,Y):
+    """
+    ramp
+    returns slope angle
+    """
+
+    #pdb.set_trace()
+
+    Z=np.zeros(np.shape(X)) + 23.0
+    
+    
+    return Z
+
 
 
 
