@@ -70,7 +70,7 @@ ylower = -1.0
 yupper =  1.0
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,theta23,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,theta_23,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
 
