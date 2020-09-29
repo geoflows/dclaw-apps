@@ -19,14 +19,15 @@ def LargeCap_h(X,Y):
     r = 4.0e-2
     R = 8.0e-2
     xc = R
+    yc = 0.0
     zc = -(R-r)
 
     # hemisphere sits above ramp by maximum r.
     # (x-xc)**2 + (y-yc)**2 + (z-zc)**2 = R**2 
     # z = zc - sqrt(R**2 -(y-yc)**2 - (x-xc)**2)
 
-    xind = np.where((X[0,:]-xc)**2 <= R**2)[0] #
-    yind = np.where((Y[:,0]-yc)**2 <= R**2)[0] # 
+    xind = np.where((X[0,:]-xc)**2 < R**2)[0] #
+    yind = np.where((Y[:,0]-yc)**2 < R**2)[0] # 
     
 
     #pdb.set_trace()
@@ -34,7 +35,7 @@ def LargeCap_h(X,Y):
     Z=np.zeros(np.shape(X))
     y = Y[np.ix_(yind,xind)]
     x = X[np.ix_(yind,xind)]
-    Z[np.ix_(yind,xind)]  = zc - sqrt(R**2 -(y-yc)**2 - (x-xc)**2)
+    Z[np.ix_(yind,xind)]  = zc - np.sqrt(R**2 -(y-yc)**2 - (x-xc)**2)
     #formula for whole circle gives negative values for outer x
     Z = np.maximum(Z,0.0)
     
