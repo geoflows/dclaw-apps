@@ -319,7 +319,7 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/Phi.tt2'])
+    geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/theta23.tt2'])
 
     # == setregions.data values ==
     geodata.regions = []
@@ -371,7 +371,7 @@ def setdig(rundata):
     digdata.rho_s = 2700.0
     digdata.phi_bed = 32.0
     digdata.phi_int = 32.0
-    digdata.theta_input = 23.0
+    digdata.theta_input = 0.0
     digdata.mu = 0.005
     digdata.m0 = 0.62
     digdata.m_crit = 0.64

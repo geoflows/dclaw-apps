@@ -60,7 +60,7 @@ nypoints = int((yupper-ylower)/dx) + 1
 gt.topo2writer(outfile,zero_plane,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 # plane (file for theta...just 0).
-outfile= 'ramp_zero.tt2'
+outfile= 'ramp_theta23.tt2'
 outfile = os.path.join(auxdir,outfile)
 dx = 0.001 #1 meter DEM
 # grid
@@ -70,7 +70,7 @@ ylower = -1.0
 yupper =  1.0
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,zero_plane,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,theta23,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
 
