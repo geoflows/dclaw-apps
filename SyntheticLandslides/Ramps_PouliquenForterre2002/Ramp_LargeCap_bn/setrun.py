@@ -284,7 +284,7 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    topofile1=os.path.join(topopath,'LargeCap_b_23.tt2')
+    topofile1=os.path.join(topopath,'ramp_zero.tt2')
 
     geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
 
@@ -306,7 +306,7 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/LargeCap_eta_23.tt2'])
+    geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/LargeCap_h.tt2'])
     #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
@@ -319,7 +319,7 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/theta23.tt2'])
+    geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/theta23.tt2'])
 
     # == setregions.data values ==
     geodata.regions = []
@@ -381,7 +381,7 @@ def setdig(rundata):
     digdata.alpha_seg = 0.0
     digdata.phi_seg_coeff = 0.0
     digdata.delta = 0.01
-    digdata.bed_normal = 0
+    digdata.bed_normal = 1
     digdata.entrainment = 0
     digdata.entrainment_rate = 0.0
     digdata.sigma_0 = 1.e3

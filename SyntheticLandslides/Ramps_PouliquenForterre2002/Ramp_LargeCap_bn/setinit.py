@@ -34,7 +34,7 @@ if not os.path.isdir(qinitdir):
 
 
 # initial depth
-outfile= 'LargeCap_eta_23.tt2'
+outfile= 'LargeCap_h.tt2'
 outfile = os.path.join(qinitdir,outfile)
 dx = 0.001 #1 mm DEM
 # grid
@@ -44,11 +44,10 @@ ylower = -1.0
 yupper =  1.0
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,LargeCap_eta,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,LargeCap_h,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
-
-# initial depth
-outfile= 'LargeCap_b_23.tt2'
+# plane (file for b...just 0).
+outfile= 'ramp_zero.tt2'
 outfile = os.path.join(topodir,outfile)
 dx = 0.001 #1 mm DEM
 # grid
@@ -58,7 +57,20 @@ ylower = -1.0
 yupper =  1.0
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,LargeCap_b,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,zero_plane,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+
+# plane (file for theta...just 0).
+outfile= 'ramp_theta23.tt2'
+outfile = os.path.join(auxdir,outfile)
+dx = 0.001 #1 meter DEM
+# grid
+xlower = -1.0
+xupper =  5.0 
+ylower = -1.0
+yupper =  1.0
+nxpoints = int((xupper-xlower)/dx) + 1
+nypoints = int((yupper-ylower)/dx) + 1
+gt.topo2writer(outfile,theta_23,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
 
