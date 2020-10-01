@@ -218,9 +218,9 @@ def setrun(claw_pkg='digclaw'):
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [5,4]
-    clawdata.inraty = [5,4]
-    clawdata.inratt = [5,4]
+    clawdata.inratx = [2,4]
+    clawdata.inraty = [2,4]
+    clawdata.inratt = [2,4]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
