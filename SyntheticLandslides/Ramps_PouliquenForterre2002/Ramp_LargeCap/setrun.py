@@ -64,14 +64,14 @@ def setrun(claw_pkg='digclaw'):
     # Lower and upper edge of computational domain:
 
     clawdata.xlower =  0.0
-    clawdata.xupper =  3.0
+    clawdata.xupper =  2.0
 
     clawdata.ylower =  -0.5
     clawdata.yupper =   0.5
 
 
     # Number of grid cells:
-    clawdata.mx = 300 #1cm cells
+    clawdata.mx = 200 #1cm cells
     clawdata.my = 100 #1cm cells
 
 
@@ -218,9 +218,9 @@ def setrun(claw_pkg='digclaw'):
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [5,4]
-    clawdata.inraty = [5,4]
-    clawdata.inratt = [5,4]
+    clawdata.inratx = [4,4]
+    clawdata.inraty = [4,4]
+    clawdata.inratt = [4,4]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
@@ -306,7 +306,7 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/LargeCap_eta_23.tt2'])
+    geodata.qinitfiles.append([2,8,1,3,'init_data/qinit/LargeCap_eta_23.tt2'])
     #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
