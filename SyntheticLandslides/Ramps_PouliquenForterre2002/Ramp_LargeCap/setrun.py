@@ -110,7 +110,7 @@ def setrun(claw_pkg='digclaw'):
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
         clawdata.nout = 50
-        clawdata.tfinal = 5.0
+        clawdata.tfinal = 2.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -213,14 +213,14 @@ def setrun(claw_pkg='digclaw'):
 
 
     # max number of refinement levels:
-    mxnest = 2 #2 => 10 m resolution, 3=> 1 m resolution
+    mxnest = 3 #2 => 10 m resolution, 3=> 1 m resolution
 
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [4,4]
-    clawdata.inraty = [4,4]
-    clawdata.inratt = [4,4]
+    clawdata.inratx = [4,5]
+    clawdata.inraty = [4,5]
+    clawdata.inratt = [4,5]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
