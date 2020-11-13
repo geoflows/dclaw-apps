@@ -63,16 +63,16 @@ def setrun(claw_pkg='digclaw'):
 
     # Lower and upper edge of computational domain:
 
-    clawdata.xlower =  -0.2
-    clawdata.xupper =  0.2
+    clawdata.xlower =  0.0
+    clawdata.xupper =  20.0e3
 
-    clawdata.ylower =  -0.2
-    clawdata.yupper =   0.2
+    clawdata.ylower =  -5.0e3
+    clawdata.yupper =   5.0e3
 
 
     # Number of grid cells:
-    clawdata.mx = 40 #1cm cells
-    clawdata.my = 40 #1cm cells
+    clawdata.mx = 200
+    clawdata.my = 100
 
 
     # ---------------
@@ -109,8 +109,8 @@ def setrun(claw_pkg='digclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 50
-        clawdata.tfinal = 5.0
+        clawdata.nout = 60
+        clawdata.tfinal = 120.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -218,9 +218,9 @@ def setrun(claw_pkg='digclaw'):
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [10,4]
-    clawdata.inraty = [10,4]
-    clawdata.inratt = [10,4]
+    clawdata.inratx = [10,10]
+    clawdata.inraty = [10,10]
+    clawdata.inratt = [10,10]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
@@ -270,12 +270,12 @@ def setgeo(rundata):
 
     # == settsunami.data values ==
     geodata.sealevel = -1000.0
-    geodata.drytolerance = 1.e-6
+    geodata.drytolerance = 1.e-3
     geodata.wavetolerance = 5.e-2
     geodata.depthdeep = 1.e2
     geodata.maxleveldeep = 1
-    geodata.ifriction = 1
-    geodata.coeffmanning = 0.033
+    geodata.ifriction = 0
+    geodata.coeffmanning = 0.025
     geodata.frictiondepth = 10000.0
 
     # == settopo.data values ==
@@ -284,7 +284,7 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    topofile1=os.path.join(topopath,'ramp_zero.tt2')
+    topofile1=os.path.join(topopath,'Mt_Tanh_log_eta.tt2')
 
     geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
 
@@ -306,7 +306,7 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,1,3,3,'init_data/Cap_R8_H2_eta.tt2'])
+    geodata.qinitfiles.append([2,8,3,3,'init_data/qinit/Mt_Tanh_log_eta_gausshump.tt2'])
     #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
@@ -319,7 +319,7 @@ def setgeo(rundata):
     #The following values are allowed for iauxinit:
         #n=1,maux perturbation of aux(i,j,n)
 
-    #geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/theta23.tt2'])
+    #geodata.auxinitfiles.append([2,5,1,5,'init_data/aux/Phi.tt2'])
 
     # == setregions.data values ==
     geodata.regions = []
@@ -367,15 +367,15 @@ def setdig(rundata):
 
     #set non-default values if needed
     digdata.c1 = 1.0
-    digdata.rho_f = 1000.0
+    digdata.rho_f = 1100.0
     digdata.rho_s = 2700.0
-    digdata.phi_bed = 30.0
-    digdata.phi_int = 30.0
+    digdata.phi_bed = 32.0
+    digdata.phi_int = 32.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
     digdata.m0 = 0.62
-    digdata.m_crit = 0.62
-    permeability = 0.0
+    digdata.m_crit = 0.64
+    permeability = 1.0e-10
     digdata.kappita = permeability
     digdata.alpha_c = 0.05
     digdata.alpha_seg = 0.0
