@@ -10,7 +10,7 @@ import numpy as np
 #---------------- functions for geometry to build DEMs ------------
 
 
-def LargeCap_eta(X,Y):
+def MedCap_eta(X,Y):
     """
     Large cap depth -- earth-centered Cartesian
     returns eta
@@ -20,9 +20,9 @@ def LargeCap_eta(X,Y):
     theta = 23.0 
     thetarad = np.deg2rad(theta)
 
-    #large cap
-    r = 4.0e-2
-    R = 8.0e-2
+    #medium cap
+    r = 3.1e-2
+    R = 6.0e-2
     #arbitrary position of circle center
     xc = 2*R 
     yc = 0.0
@@ -57,19 +57,20 @@ def LargeCap_eta(X,Y):
 
     return eta
 
-def LargeCap_eta_bn(X,Y):
+def MedCap_eta_bn(X,Y):
     """
-    Large cap depth -- earth-centered Cartesian
-    returns eta
+    Medium cap
+    bed normal (theta = 0)
     """
 
     #ramp slope
     theta = 0.0 
     thetarad = np.deg2rad(theta)
 
-    #large cap
-    r = 4.0e-2
-    R = 8.0e-2
+    #medium cap
+    r = 3.1e-2
+    R = 6.0e-2
+    
     #arbitrary position of circle center
     xc = 2*R 
     yc = 0.0
@@ -104,19 +105,19 @@ def LargeCap_eta_bn(X,Y):
 
     return eta
 
-def LargeCap_b(X,Y):
+def MedCap_b(X,Y):
     """
-    Large cap depth -- earth-centered Cartesian
-    returns eta
+    Ramp for med cap
     """
 
     #ramp slope
     theta = 23.0 
     thetarad = np.deg2rad(theta)
 
-    #large cap
-    r = 4.0e-2
-    R = 8.0e-2
+    #medium cap
+    r = 3.1e-2
+    R = 6.0e-2
+    
     #arbitrary position of circle center
     xc = 2.*R 
     yc = 0.0

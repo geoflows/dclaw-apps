@@ -63,16 +63,16 @@ def setrun(claw_pkg='digclaw'):
 
     # Lower and upper edge of computational domain:
 
-    clawdata.xlower =  0.0
-    clawdata.xupper =  2.0
+    clawdata.xlower =  -0.2
+    clawdata.xupper =  0.2
 
-    clawdata.ylower =  -0.5
-    clawdata.yupper =   0.5
+    clawdata.ylower =  -0.2
+    clawdata.yupper =   0.2
 
 
     # Number of grid cells:
-    clawdata.mx = 200 #1cm cells
-    clawdata.my = 100 #1cm cells
+    clawdata.mx = 40 #1cm cells
+    clawdata.my = 40 #1cm cells
 
 
     # ---------------
@@ -110,7 +110,7 @@ def setrun(claw_pkg='digclaw'):
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
         clawdata.nout = 50
-        clawdata.tfinal = 2.0
+        clawdata.tfinal = 5.0
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.
@@ -213,14 +213,14 @@ def setrun(claw_pkg='digclaw'):
 
 
     # max number of refinement levels:
-    mxnest = 3 #2 => 10 m resolution, 3=> 1 m resolution
+    mxnest = 2 #2 => 10 m resolution, 3=> 1 m resolution
 
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [4,5]
-    clawdata.inraty = [4,5]
-    clawdata.inratt = [4,5]
+    clawdata.inratx = [10,4]
+    clawdata.inraty = [10,4]
+    clawdata.inratt = [10,4]
 
 
     # Specify type of each aux variable in clawdata.auxtype.
@@ -284,7 +284,7 @@ def setgeo(rundata):
     import os
 
     topopath = 'init_data/topo'
-    topofile1=os.path.join(topopath,'LargeCap_b_23.tt2')
+    topofile1=os.path.join(topopath,'ramp_zero.tt2')
 
     geodata.topofiles.append([2, 1, 3, 0.0, 1.e10, topofile1])
 
@@ -306,7 +306,7 @@ def setgeo(rundata):
         #n=1,meqn perturbation of q(i,j,n)
         #n=meqn+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
 
-    geodata.qinitfiles.append([2,8,1,3,'init_data/qinit/LargeCap_eta_23.tt2'])
+    geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/Cap_R8_H2_eta.tt2'])
     #geodata.qinitfiles.append([2,1,3,3,'init_data/qinit/src_quadratic_Mt_Tanh_h.tt2'])
 
 
@@ -369,13 +369,13 @@ def setdig(rundata):
     digdata.c1 = 1.0
     digdata.rho_f = 1000.0
     digdata.rho_s = 2700.0
-    digdata.phi_bed = 32.0
-    digdata.phi_int = 32.0
+    digdata.phi_bed = 30.0
+    digdata.phi_int = 30.0
     digdata.theta_input = 0.0
     digdata.mu = 0.005
     digdata.m0 = 0.62
-    digdata.m_crit = 0.64
-    permeability = 1.0e-10
+    digdata.m_crit = 0.62
+    permeability = 0.0
     digdata.kappita = permeability
     digdata.alpha_c = 0.05
     digdata.alpha_seg = 0.0
@@ -387,7 +387,7 @@ def setdig(rundata):
     digdata.sigma_0 = 1.e3
     digdata.phys_tol = rundata.geodata.drytolerance
 
-    digdata.init_ptype = 0
+    digdata.init_ptype = -1
     digdata.init_pmax_ratio = 0.00e0
     digdata.init_ptf = 0.0
     digdata.init_ptf2= 0.0

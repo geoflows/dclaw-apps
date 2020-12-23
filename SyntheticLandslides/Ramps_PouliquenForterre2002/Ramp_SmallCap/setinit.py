@@ -33,8 +33,8 @@ if not os.path.isdir(qinitdir):
     os.system(execstr)
 
 
-# initial eta
-outfile= 'LargeCap_eta_23.tt2'
+# initial depth
+outfile= 'SmallCap_eta_23.tt2'
 outfile = os.path.join(qinitdir,outfile)
 dx = 0.001 #1 mm DEM
 # grid
@@ -44,10 +44,10 @@ ylower = -0.5
 yupper =  0.5
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,LargeCap_eta,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,SmallCap_eta,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
-# initial eta bed normal
-outfile= 'LargeCap_eta_bn.tt2'
+# initial depth
+outfile= 'SmallCap_eta_bn.tt2'
 outfile = os.path.join(qinitdir,outfile)
 dx = 0.001 #1 mm DEM
 # grid
@@ -57,11 +57,11 @@ ylower = -0.5
 yupper =  0.5
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,LargeCap_eta_bn,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,SmallCap_eta_bn,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
-# ramp for large cap
-outfile= 'LargeCap_b_23.tt2'
+# initial depth
+outfile= 'SmallCap_b_23.tt2'
 outfile = os.path.join(topodir,outfile)
 dx = 0.001 #1 mm DEM
 # grid
@@ -71,7 +71,7 @@ ylower = -1.0
 yupper =  1.0
 nxpoints = int((xupper-xlower)/dx) + 1
 nypoints = int((yupper-ylower)/dx) + 1
-gt.topo2writer(outfile,LargeCap_b,xlower,xupper,ylower,yupper,nxpoints,nypoints)
+gt.topo2writer(outfile,SmallCap_b,xlower,xupper,ylower,yupper,nxpoints,nypoints)
 
 
 
