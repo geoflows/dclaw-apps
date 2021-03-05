@@ -15,12 +15,12 @@ from pyclaw.plotters import geoplot
 import dclaw.gaugedata as cg
 #import pytools.scalebars as scalebars
 import pylab
-import pdb
+#import pdb
 
 setrundata = setrun.setrun()
 
 #pdb.set_trace()
-(allgaugedata,xgauges,ygauges,gauge_nums) = cg.getgaugedata('_output/fort.gauge','_output/setgauges.data')
+#(allgaugedata,xgauges,ygauges,gauge_nums) = cg.getgaugedata('_output/fort.gauge','_output/setgauges.data')
 theta = 31.0*np.pi/180.
 m0 = 0.5
 g = 9.81
@@ -109,7 +109,7 @@ def setplot(plotdata):
         pylab.gcf().subplots_adjust(bottom=0.15)
         #pylab.tight_layout()
         return current_data
-
+    """
     def logscale(current_data):
         pplt.gca().set_yscale('log')
         return current_data
@@ -163,32 +163,34 @@ def setplot(plotdata):
                 pylab.plot(xnow,zcoord,xColor[x0ind],markersize=14)
 
         return current_data
-
-    # Figure for surface elevation with concentration
+    """
+    # -------Figure for surface elevation with concentration------------------------
     plotfigure = plotdata.new_plotfigure(name='Surface3', figno=0)
-    plotfigure.kwargs = {'figsize':(9,2.2),'frameon':False}
-    plotfigure.tight_layout = True
+    #plotfigure.kwargs = {'figsize':(9,2.2),'frameon':False}
+    #plotfigure.tight_layout = True
 #    plotfigure.clf_each_frame = False
     # Set up for axes in this figure:
     plotaxes = plotfigure.new_plotaxes()
     #plotaxes.xlimits = [-6.0,130]
     plotaxes.ylimits = [-0.2,2.0]#'auto' #[-.1,2.0]
-    plotaxes.kwargs = {'frameon':'False','axis':'off'}
+    #plotaxes.kwargs = {'frameon':'False','axis':'off'}
     #plotaxes.afteraxes = fixup
     # Set up for item on these axes: (plot tan depth)
     plotitem = plotaxes.new_plotitem(plot_type='1d_fill_between_from_2d_data')
-    plotitem.plot_var = digplot.topo
-    plotitem.plot_var2 = digplot.eta
-    plotitem.map_2d_to_1d = q_1d_fill
+    #plotitem.plot_var = digplot.topo
+    #plotitem.plot_var2 = digplot.eta
+    plotitem.plot_var = digplot.eta
+    #plotitem.map_2d_to_1d = q_1d_fill
+    plotitem.map_2d_to_1d = q_1d
     #plotitem.amr_gridlines_show = [1,1,1]
     plotitem.color = 'tan'
     # Set up for item on these axes: (plot red fill for coarse concentration)
-    plotitem = plotaxes.new_plotitem(plot_type='1d_fill_between_from_2d_data')
-    plotitem.plot_var = digplot.topo
-    plotitem.plot_var2 = 5
-    plotitem.map_2d_to_1d = q_1d_fill
+    #plotitem = plotaxes.new_plotitem(plot_type='1d_fill_between_from_2d_data')
+    #plotitem.plot_var = digplot.topo
+    #plotitem.plot_var2 = 5
+    #plotitem.map_2d_to_1d = q_1d_fill
     #plotitem.amr_gridlines_show = [1,1,1]
-    plotitem.color = 'red'
+    #plotitem.color = 'red'
     # Set up for item on these axes: (dark line for topography)
     plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
     plotitem.plot_var = digplot.topo
@@ -197,12 +199,13 @@ def setplot(plotdata):
     plotitem.color = 'black'
     plotitem.linewidth = 2.0
     plotitem.show = True
+    #---------------------------------------------------------------------------
 
-
-    # Figure for surface elevation
+    """
+    # ---Figure for surface elevation-------------------------------------------
     plotfigure = plotdata.new_plotfigure(name='Surface', figno=1)
     plotfigure.kwargs = {'figsize':(9,2.2),'frameon':False}
-    plotfigure.tight_layout = True
+    #plotfigure.tight_layout = True
 #    plotfigure.clf_each_frame = False
 
     # Set up for axes in this figure:
@@ -212,16 +215,12 @@ def setplot(plotdata):
     plotaxes.kwargs = {'frameon':'False','axis':'off'}
     plotaxes.afteraxes = fixup
 
-
-
     # Set up for item on these axes: (plot tan depth)
     plotitem = plotaxes.new_plotitem(plot_type='1d_fill_between_from_2d_data')
     plotitem.plot_var = digplot.topo
     plotitem.plot_var2 = digplot.eta
     plotitem.map_2d_to_1d = q_1d_fill
     #plotitem.amr_gridlines_show = [1,1,1]
-
-
     plotitem.color = 'tan'
 
     # Set up for item on these axes: (plot blue fill for pressure)
@@ -240,15 +239,13 @@ def setplot(plotdata):
     plotitem.color = 'black'
     plotitem.linewidth = 2.0
     plotitem.show = True
-
     # Set up for lagrangian points
     #plotitem = plotaxes.new_plotitem(plot_type = '2d_empty')
     #plotitem.aftergrid = plot_lagrangian
-
     plotitem.show = True
+    #------------------------------------------------------------------------------
 
-
-    # figure of surface
+    # ---figure of surface---------------------------------------------------------
     plotfigure = plotdata.new_plotfigure(name='Surface_2', figno=2)
     plotaxes = plotfigure.new_plotaxes()
     plotitem = plotaxes.new_plotitem(plot_type='2d_pcolor')
@@ -259,124 +256,9 @@ def setplot(plotdata):
     plotitem.pcolor_cmax = 1.9
     plotitem.amr_gridlines_show = [1,1,0]
     #plotitem.amr_gridedges_show = [1 1 1]
-
     plotitem.show = False
-
-    # figure of m vs. m_eqn
-    plotfigure = plotdata.new_plotfigure(name='meqn', figno=3)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.m_eqn
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'red'
-    plotitem.linewidth = 2.0
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.solid_frac
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'black'
-    plotitem.linewidth = 2.0
-    plotaxes.ylimits = [0.5,0.7]
-    plotaxes.xlimits = [-6,130]
-    plotitem.show = True
-
-    # figure of rho
-    plotfigure = plotdata.new_plotfigure(name='rho', figno=4)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.density
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'red'
-    plotitem.linewidth = 2.0
-    plotaxes.xlimits = [-6,130]
-    plotitem.show = False
-
-    # figure of Iv
-    plotfigure = plotdata.new_plotfigure(name='Iv', figno=5)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.Iv
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'red'
-    plotitem.linewidth = 2.0
-    plotaxes.xlimits = [-6,130]
-    plotaxes.ylimits = [.00,.0025]
-    plotitem.show = True
-
-    # figure of u,v
-    plotfigure = plotdata.new_plotfigure(name='uv', figno=6)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.u_velocity
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'blue'
-    plotitem.linewidth = 2.0
-    plotaxes.xlimits = [-6,140]
-    #plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    #plotitem.plot_var = v_velocity
-    #plotitem.map_2d_to_1d = q_1d
-    #plotitem.color = 'red'
-    #plotitem.linewidth = 2.0
-    #plotaxes.xlimits = [-6,130]
-    #plotitem.show = True
-
-    # figure of pressure
-    plotfigure = plotdata.new_plotfigure(name='pressure', figno=7)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.pressure_lithohead
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'blue'
-    plotitem.linewidth = 2.0
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = 0
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'red'
-    plotitem.linewidth = 2.0
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.pressure_head
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'black'
-    plotitem.linewidth = 2.0
-    plotaxes.xlimits = [-6,130]
-    plotaxes.ylimits = [0,2]
-    plotitem.show = True
-
-    # figure of effective stress
-    plotfigure = plotdata.new_plotfigure(name='sigbed', figno=8)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.sigbed
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'blue'
-    plotitem.linewidth = 2.0
-    plotitem.show = False
-
-    # figure of kperm
-    plotfigure = plotdata.new_plotfigure(name='kperm', figno=9)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = digplot.kperm_adjusted
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'blue'
-    plotitem.linewidth = 2.0
-    plotaxes.xlimits = [-6,130]
-    plotaxes.ylimits = [1.e-12,1.e-7]
-    plotaxes.afteraxes = logscale
-
-    # figure of h log
-    plotfigure = plotdata.new_plotfigure(name='small h', figno=10)
-    plotaxes = plotfigure.new_plotaxes()
-    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
-    plotitem.plot_var = 0
-    plotitem.map_2d_to_1d = q_1d
-    plotitem.color = 'blue'
-    plotitem.linewidth = 2.0
-    plotaxes.ylimits = [1.e-4,1.e1]
-    plotaxes.xlimits = [-6,140]
-
-    plotaxes.afteraxes = logscale
-
-
+    #---------------------------------------------------------------------------------
+    """
     # Parameters used only when creating html and/or latex hardcopy
     # e.g., via pyclaw.plotters.frametools.printframes:
 
