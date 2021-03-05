@@ -283,19 +283,16 @@ def setgeo(rundata):
     # == settopo.data values ==
     # set a path variable for the base topo directory for portability
     import os
-    topo=os.environ['TOPO']
-    topopath = os.path.join(topo,'stillaguamish')
+    topo=os.path.join('..','topo')
 
+    # 2013 pre-event lidar
     topofile1= 'oso_2013_m.tt2'
     topopath1 = os.path.join(topopath,topofile1)
 
-    slipdir = 'SendMay6'
+    # slip surface
     basename = 'poly2ec'
-
     topofile2 = basename+'_burnin2013_m.tt2'
     topopath2 = os.path.join(topopath,slipdir,topofile2)
-
-
 
     geodata.topofiles = []
     geodata.topofiles.append([2, 1, 4, -1.0, 1.e10, topopath1])
@@ -322,6 +319,7 @@ def setgeo(rundata):
         #n=mq+1: surface elevation eta is defined by the file and results in h=max(eta-b,0)
     #initfile = os.path.join(topopath,'nofkstill_prefailure_eta_large-3.tt2')
 
+    # source depth (2013 topo - slipsurface)
     initfile = os.path.join(topopath,slipdir,basename+'_h_m.tt2')
     geodata.qinitfiles.append([2,1,3,3,initfile])
 
