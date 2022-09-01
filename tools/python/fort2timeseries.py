@@ -32,7 +32,7 @@ x.append(xp2)
 
 #number of gauges (locations)
 Ng = len(x) 
-Ngs = range(Ng)
+Ngs = list(range(Ng))
 
 #create files to store time series, or read files if they exist
 #for each file/location create array to be put in container list of arrays 
@@ -51,7 +51,7 @@ for ig in Ngs:
 		ftname = os.path.join(fortoutputdir,'fort.t0000')
 		ftheader = cf.forttheaderread(ftname)
 		t = ftheader['time']
-		print('reading frame '+fqname)
+		print(('reading frame '+fqname))
 		solutionlist = cf.fort2list(fqname,ftname)
 		xig = x[ig]
 		qig=cf.pointfromfort(xig,solutionlist)
@@ -66,8 +66,8 @@ for ig in Ngs:
 #Note: f1 based on the size of M from above. To restrict range of fort files read, modify f1 
 f1 = nrows #note: begin at number of rows due to 0 index for fort.q0000
 f2 = 3 #choose final frame (could count #fort. files instead)
-frames = range(f1,f2+1) #which frames
-frameN = range(len(frames)) #frame indices
+frames = list(range(f1,f2+1)) #which frames
+frameN = list(range(len(frames))) #frame indices
 
 #NOTE: this routine needs to complete to save progress of reading fort files: should probably be improved later
 #loop through frames selected
@@ -77,7 +77,7 @@ for fi in frameN:
 	framename = framex[1:]
 	fqname = os.path.join(fortoutputdir,'fort.q0' + framename)
 	ftname = os.path.join(fortoutputdir,'fort.t0' + framename)
-	print('reading frame '+fqname)
+	print(('reading frame '+fqname))
 	ftheader = cf.forttheaderread(ftname)
 	t = ftheader['time']
 	solutionlist = cf.fort2list(fqname,ftname)
