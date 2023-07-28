@@ -7,3 +7,10 @@ xgeoclaw
 *.html
 _output/
 _plots/
+*.data
+*.output
+.DS_Store
+*.tt3
+*.tt2
+*.plots
+*.log

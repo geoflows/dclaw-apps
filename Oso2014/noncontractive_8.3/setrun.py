@@ -255,7 +255,7 @@ def setgeo(rundata):
     try:
         geodata = rundata.geodata
     except:
-        print "*** Error, this rundata has no geodata attribute"
+        print("*** Error, this rundata has no geodata attribute")
         raise AttributeError("Missing geodata attribute")
 
     geodata.variable_dt_refinement_ratios = True
@@ -373,7 +373,7 @@ def setdig(rundata):
     try:
         digdata = rundata.digdata
     except:
-        print "*** Error, this rundata has no digdata attribute"
+        print("*** Error, this rundata has no digdata attribute")
         raise AttributeError("Missing digdata attribute")
 
     #set non-default values if needed

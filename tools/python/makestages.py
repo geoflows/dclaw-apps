@@ -20,9 +20,9 @@ x = [xps,xpn,xconf,xort]
 
 f1 =52
 f2 =65
-frames = range(f1,f2+1)
+frames = list(range(f1,f2+1))
 
-pts = range(len(frames))
+pts = list(range(len(frames)))
 
 q0 = np.array([0,0,0,0,0,0,0,0,0])
 Mps = np.loadtxt(infiles[0])
@@ -42,7 +42,7 @@ for pt in pts:
 	ftname = os.path.join('_output','fort.t0' + framename)
 	ftheader = cf.forttheaderread(ftname)
 	t = ftheader['time']
-	print('reading frame '+fqname)
+	print(('reading frame '+fqname))
 	solutionlist = cf.fort2list(fqname,ftname)
 
 	#q=cf.pointfromfort(xdam,solutionlist)

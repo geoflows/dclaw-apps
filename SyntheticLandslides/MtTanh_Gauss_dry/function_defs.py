@@ -100,7 +100,7 @@ def mt_tanh_gauss_eta(X,Y):
     dx = abs(X[0,1]-X[0,0])
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
 
     eta = b + h
     
@@ -122,7 +122,7 @@ def mt_tanh_gauss_eta_v(X,Y):
     dx = abs(X[0,1]-X[0,0])
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
 
     eta = b + h
     
@@ -149,7 +149,7 @@ def gauss_h(X,Y):
     dx = abs(X[0,1]-X[0,0])
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
     
     return h
 
@@ -209,7 +209,7 @@ def src_quadratic_h_v(X,Y):
     dx = abs(X[0,1]-X[0,0])
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
     
     return (h,volume)
 
@@ -243,7 +243,7 @@ def src_quadratic_h(X,Y):
     dx = abs(X[0,1]-X[0,0])
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
     
     return h
 
@@ -304,7 +304,7 @@ def src_quadratic_h_r_v(X,Y):
     #print dx
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
     
     return (h,volume)
 
@@ -336,10 +336,10 @@ def src_quadratic_h_r(X,Y):
     h = eta - b
 
     dx = abs(X[0,1]-X[0,0])
-    print dx
+    print(dx)
 
     volume = np.sum(h)*dx*dx
-    print 'source volume (million m^3): ', volume/1.e6
+    print('source volume (million m^3): ', volume/1.e6)
     
     return h
     

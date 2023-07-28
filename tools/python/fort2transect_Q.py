@@ -28,7 +28,7 @@ Lhat = (1.0/D)*L #unit
 dl = D/(N-1) #segment length
 dL = dl*Lhat #segment vector
 
-dx = dl*np.array(range(N))
+dx = dl*np.array(list(range(N)))
 x = []
 for dxi in dx:
 	xp = X0 + dxi*Lhat
@@ -48,16 +48,16 @@ if not os.path.isdir(outdirname):
 else:
 	if os.listdir(outdirname):
 		print ('output directory is not empty')
-		g = raw_input('Continue: y/n? ')
+		g = input('Continue: y/n? ')
 		if g[0] == 'y' or g[0] == 'Y':
 			pass
 		else:
-			print 'exiting'
+			print('exiting')
 			exit()
 
 #number of gauges (locations)
 Ng = len(x) 
-Ngs = range(Ng)
+Ngs = list(range(Ng))
 
 
 #create files to store time series, or read files if they exist
@@ -77,7 +77,7 @@ for ig in Ngs:
 		ftname = os.path.join(fortoutputdir,'fort.t0000')
 		ftheader = cf.forttheaderread(ftname)
 		t = ftheader['time']
-		print('reading frame '+fqname)
+		print(('reading frame '+fqname))
 		solutionlist = cf.fort2list(fqname,ftname)
 		xig = x[ig]
 		qig=cf.pointfromfort(xig,solutionlist)
@@ -92,8 +92,8 @@ for ig in Ngs:
 #Note: f1 based on the size of M from above. To restrict range of fort files read, modify f1 
 f1 = nrows #note: begin at number of rows due to 0 index for fort.q0000
 f2 = 40 #choose final frame (could count #fort. files instead)
-frames = range(f1,f2+1) #which frames
-frameN = range(len(frames)) #frame indices
+frames = list(range(f1,f2+1)) #which frames
+frameN = list(range(len(frames))) #frame indices
 
 #NOTE: this routine needs to complete to save progress of reading fort files: should probably be improved later
 #loop through frames selected
@@ -103,7 +103,7 @@ for fi in frameN:
 	framename = framex[1:]
 	fqname = os.path.join(fortoutputdir,'fort.q0' + framename)
 	ftname = os.path.join(fortoutputdir,'fort.t0' + framename)
-	print('reading frame '+fqname)
+	print(('reading frame '+fqname))
 	ftheader = cf.forttheaderread(ftname)
 	t = ftheader['time']
 	solutionlist = cf.fort2list(fqname,ftname)
@@ -140,7 +140,7 @@ for ig in Ngs:
 	
 	nx = Lhat[1]
 	ny = -Lhat[0]
-	for j in xrange(tN):
+	for j in range(tN):
 		tj = M[j,0]
 		hu = M[j,2]
 		hv = M[j,3]
@@ -154,7 +154,7 @@ np.savetxt(fname,tF)
 tV = np.zeros((tN,2)) # two-column array is cumulative sum of volume flux from t0 to tj for jth time
 tV[0,0] = tF[0,0]
 
-for j in xrange(tN-1):
+for j in range(tN-1):
 	tj = tF[j,0]
 	Fj = tF[j,1]
 	tjp = tF[j+1,0]

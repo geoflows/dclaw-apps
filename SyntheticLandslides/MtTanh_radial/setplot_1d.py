@@ -136,7 +136,7 @@ def setplot(plotdata):
         h2d = current_data.q[:,:,0]
         topo2d = digplot.topo(current_data)
 
-        for x0ind in xrange(len(x0Lagrangian)):
+        for x0ind in range(len(x0Lagrangian)):
             x0 = x0Lagrangian[x0ind]
 
             Xoft = cg.Lagrangian_Xoft(allgaugedata,xgauges,gauge_nums,x0,T)
